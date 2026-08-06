@@ -1,0 +1,383 @@
+// @import './fonts.scss';
+// @import './bootstrap.scss';
+// @import './overrides.scss';
+
+// :root {
+//   --app-header-height: 70px;
+// }
+
+// table.table {
+//   --bs-table-color: var(--bs-body-color);
+// }
+
+// .text-sentencecase {
+//   text-transform: lowercase;
+
+//   &::first-letter {
+//     text-transform: uppercase;
+//   }
+// }
+
+// .item-icon {
+//   border-radius: 50%;
+//   width: 20px;
+//   height: 20px;
+//   font-size: 0.7rem;
+//   text-align: center;
+//   color: var(--bs-body-bg);
+//   display: inline-flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+// .icon-assembly {
+//   background-color: var(--bs-orange);
+// }
+
+// .icon-part {
+//   background-color: var(--bs-blue);
+// }
+
+// .icon-weldment {
+//   background-color: var(--bs-black);
+// }
+
+// .part-badge {
+//   border-radius: 50px;
+//   border: 1px solid var(--bs-blue);
+//   background: var(--bs-light-bg) 0% 0% no-repeat padding-box;
+// }
+
+// .assembly-badge {
+//   border-radius: 50px;
+//   border: 1px solid var(--bs-orange);
+//   background: var(--bs-light-bg) 0% 0% no-repeat padding-box;
+// }
+
+// .weldment-badge {
+//   border-radius: 50px;
+//   background: var(--bs-light-bg) 0% 0% no-repeat padding-box;
+//   border: 1px solid var(--bs-black);
+// }
+
+// .part-badge-icon {
+//   background-color: var(--bs-blue);
+//   display: inline-block;
+//   border-radius: 50%;
+//   width: 23px;
+//   color: white;
+// }
+
+// .assembly-badge-icon {
+//   background-color: var(--bs-orange);
+//   display: inline-block;
+//   border-radius: 50%;
+//   width: 23px;
+//   color: white;
+// }
+
+// .weldment-badge-icon {
+//   background-color: var(--bs-black);
+//   display: inline-block;
+//   border-radius: 50%;
+//   width: 23px;
+//   color: var(--bs-white);
+// }
+
+// .make-buy-indicator {
+//   background: var(--bs-body-bg);
+//   box-shadow: inset 0px 0px 4px #21252940;
+//   border: 1px solid var(--bs-border-color);
+//   border-radius: 50px;
+//   color: var(--bs-orange);
+//   width: 80px;
+//   text-align: center;
+//   font-size: 0.85rem;
+// }
+
+// .nav-tabs.list-tabs {
+//   --bs-nav-tabs-border-color: transparent;
+//   --bs-nav-tabs-border-width: 0;
+//   --bs-nav-tabs-link-active-bg: transparent;
+//   --bs-nav-tabs-link-active-border-color: var(--bs-black);
+
+//   .nav-link {
+//     color: var(--bs-secondary-color);
+//     margin-right: 0.5rem;
+//     border-bottom: 3px solid;
+
+//     &:not(.active) {
+//       border-bottom-color: var(--bs-gray-200);
+//     }
+
+//     &.active {
+//       color: var(--bs-black);
+//     }
+//   }
+// }
+
+// .placeholder {
+//   opacity: 0.15;
+//   border-radius: var(--bs-border-radius);
+// }
+
+// .placeholder-wave {
+//   mask-image: linear-gradient(
+//     90deg,
+//     var(--bs-black) 55%,
+//     rgba(var(--bs-black-rgb), 0.25) 75%,
+//     var(--bs-black) 95%
+//   );
+//   animation-timing-function: ease-in-out;
+//   animation-duration: 1.5s;
+// }
+
+// .placeholder-card {
+//   min-height: 150px;
+// }
+
+// .modal {
+//   --bs-modal-bg: var(--bs-body-bg);
+// }
+
+// @keyframes placeholder-glow {
+//   50% {
+//     opacity: 0;
+//   }
+// }
+
+// /* Chrome, Safari, Edge, Opera */
+// input::-webkit-outer-spin-button,
+// input::-webkit-inner-spin-button {
+//   -webkit-appearance: none;
+//   margin: 0;
+// }
+
+// /* Firefox */
+// input[type='number'] {
+//   appearance: textfield;
+//   -moz-appearance: textfield;
+// }
+
+// pre code {
+//   display: block;
+//   width: 100%;
+//   padding: 0.75rem 1rem;
+//   background-color: var(--bs-tertiary-bg);
+//   border-radius: var(--bs-border-radius);
+//   border: 1px solid rgba(var(--bs-border-color-rgb), 0.25);
+// }
+
+// ::placeholder,
+// ::-webkit-input-placeholder,
+// ::-moz-placeholder,
+// :-ms-input-placeholder {
+//   color: var(--bs-gray-300);
+// }
+
+// ::-webkit-scrollbar {
+//   width: 10px;
+//   height: 10px;
+// }
+
+// ::-webkit-scrollbar-thumb {
+//   background: var(--bs-gray-300);
+//   border-radius: 20px;
+// }
+
+// ::-webkit-scrollbar-track {
+//   background: var(--bs-gray-100);
+//   border-radius: 20px;
+// }
+
+@import './fonts.scss';
+@import './bootstrap.scss';
+@import './overrides.scss';
+
+:root {
+  --app-header-height: 70px;
+}
+
+table.table {
+  --bs-table-color: var(--bs-body-color);
+}
+
+.text-sentencecase {
+  text-transform: lowercase;
+
+  &::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.item-icon {
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 0.7rem;
+  text-align: center;
+  color: var(--bs-body-bg);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-assembly {
+  background-color: var(--bs-orange);
+}
+
+.icon-part {
+  background-color: var(--bs-blue);
+}
+
+.icon-weldment {
+  background-color: var(--bs-black);
+}
+
+.part-badge {
+  border-radius: 50px;
+  border: 1px solid var(--bs-blue);
+  background: var(--bs-light-bg) 0% 0% no-repeat padding-box;
+}
+
+.assembly-badge {
+  border-radius: 50px;
+  border: 1px solid var(--bs-orange);
+  background: var(--bs-light-bg) 0% 0% no-repeat padding-box;
+}
+
+.weldment-badge {
+  border-radius: 50px;
+  background: var(--bs-light-bg) 0% 0% no-repeat padding-box;
+  border: 1px solid var(--bs-black);
+}
+
+.part-badge-icon {
+  background-color: var(--bs-blue);
+  display: inline-block;
+  border-radius: 50%;
+  width: 23px;
+  color: white;
+}
+
+.assembly-badge-icon {
+  background-color: var(--bs-orange);
+  display: inline-block;
+  border-radius: 50%;
+  width: 23px;
+  color: white;
+}
+
+.weldment-badge-icon {
+  background-color: var(--bs-black);
+  display: inline-block;
+  border-radius: 50%;
+  width: 23px;
+  color: var(--bs-white);
+}
+
+.make-buy-indicator {
+  background: var(--bs-body-bg);
+  box-shadow: inset 0px 0px 4px #21252940;
+  border: 1px solid var(--bs-border-color);
+  border-radius: 50px;
+  color: var(--bs-orange);
+  width: 80px;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.nav-tabs.list-tabs {
+  --bs-nav-tabs-border-color: transparent;
+  --bs-nav-tabs-border-width: 0;
+  --bs-nav-tabs-link-active-bg: transparent;
+  --bs-nav-tabs-link-active-border-color: var(--bs-black);
+
+  .nav-link {
+    color: var(--bs-secondary-color);
+    margin-right: 0.5rem;
+    border-bottom: 3px solid;
+
+    &:not(.active) {
+      border-bottom-color: var(--bs-gray-200);
+    }
+
+    &.active {
+      color: var(--bs-black);
+    }
+  }
+}
+
+.placeholder {
+  opacity: 0.15;
+  border-radius: var(--bs-border-radius);
+}
+
+.placeholder-wave {
+  mask-image: linear-gradient(
+    90deg,
+    var(--bs-black) 55%,
+    rgba(var(--bs-black-rgb), 0.25) 75%,
+    var(--bs-black) 95%
+  );
+  animation-timing-function: ease-in-out;
+  animation-duration: 1.5s;
+}
+
+.placeholder-card {
+  min-height: 150px;
+}
+
+.modal {
+  --bs-modal-bg: var(--bs-body-bg);
+}
+
+@keyframes placeholder-glow {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+pre code {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: var(--bs-tertiary-bg);
+  border-radius: var(--bs-border-radius);
+  border: 1px solid rgba(var(--bs-border-color-rgb), 0.25);
+}
+
+::placeholder,
+::-webkit-input-placeholder,
+::-moz-placeholder,
+:-ms-input-placeholder {
+  color: var(--bs-gray-300);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bs-gray-300);
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bs-gray-100);
+  border-radius: 20px;
+}

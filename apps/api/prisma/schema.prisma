@@ -1,0 +1,162 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Models will be introduced in future modules.
+
+enum Role {
+  Admin
+  Manager
+  Employee
+}
+
+enum LeaveStatus {
+  Pending
+  Approved 
+  Rejected
+  Cancelled
+}
+
+model Test {
+  id    Int       @id @default(autoincrement())
+  bio   String    
+  role  String    @unique
+}
+
+model Branch {
+   id            String      @id @default(uuid())
+   code          String      @unique
+   name          String
+   location      String
+   users         User[]
+   createdAt     DateTime    @default(now())
+   updatedAt     DateTime    @updatedAt
+   isDeleted     Boolean     @default(false)
+}
+
+model User {
+  id                        String      @id @default(uuid())
+  firstName                 String      
+  lastName                  String
+  email                     String      @unique
+  hash                      String
+  tokenVersion              Int         @default(0)
+  managerId                 String?
+  manager                   User?       @relation("UserManager", fields: [managerId], references:[id])
+  directReports             User[]      @relation("UserManager")
+  branchId                  String?
+  branch                    Branch?     @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  vendorId                  String?
+  vendor                    Vendor?     @relation(fields: [vendorId], references: [id], onDelete: SetNull)
+  refreshSessions           RefreshTokenSession[]
+  leaveTrackers             LeaveTracker[]
+  appliedLeaveApplications  LeaveApplication[] @relation("LeaveApplicant")
+  managedLeaveApplications  LeaveApplication[] @relation("LeaveManager")
+  userRole                  Role
+  phoneNumber               String
+  designation               String
+  dateOfBirth               DateTime
+  dateOfJoining             DateTime
+  emergencyContactName      String
+  emergencyContactNumber    String 
+  createAt                  DateTime    @default(now())
+  updatedAt                 DateTime    @updatedAt
+  isDeleted                 Boolean     @default(false)
+}
+
+model RefreshTokenSession {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash     String   @unique
+  expiresAt     DateTime
+  revokedAt     DateTime?
+  replacedById  String?
+  replacedBy    RefreshTokenSession? @relation("RefreshTokenRotation", fields: [replacedById], references: [id])
+  replaces      RefreshTokenSession[] @relation("RefreshTokenRotation")
+  createdAt     DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@index([revokedAt])
+}
+
+model Vendor {
+  id              String       @id @default(uuid())
+  name            String       
+  contactName     String
+  contactNumber   String
+  contactEmail    String
+  users           User[]
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  isDeleted       Boolean      @default(false)
+}
+
+model PublicHolidays {
+  id              String       @id @default(uuid())
+  holidayDate     DateTime
+  title           String
+  createdAt       DateTime
+  updatedAt       DateTime
+  isDeleted       Boolean      @default(false)
+}
+
+model LeaveTypes {
+  id              String       @id @default(uuid())
+  code            String
+  description     String
+  leaveApplications LeaveApplication[]
+  createAt        DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  isDeleted       Boolean      @default(false)
+}
+
+model LeaveTracker {
+  id                   String    @id @default(uuid())
+  userId               String
+  user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  year                 Int
+  openingLeaveCount    Decimal   @default(20.0)
+  pendingLeaveCount    Decimal   @default(0.0)
+  approvedLeaveCount   Decimal   @default(0.0)
+  cancelledLeaveCount  Decimal   @default(0.0)
+  rejectedLeaveCount   Decimal   @default(0.0)
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  isDeleted            Boolean   @default(false)
+
+  @@unique([userId, year])
+  @@index([userId])
+  @@index([year])
+}
+
+model LeaveApplication {
+  id                String       @id @default(uuid())
+  userId            String
+  user              User         @relation("LeaveApplicant", fields: [userId], references: [id], onDelete: Cascade)
+  managerId         String?
+  manager           User?        @relation("LeaveManager", fields: [managerId], references: [id], onDelete: SetNull)
+  leaveTypeId       String
+  leaveType         LeaveTypes   @relation(fields: [leaveTypeId], references: [id], onDelete: Restrict)
+  reason            String
+  fromDate          DateTime
+  toDate            DateTime
+  totalDays         Decimal      @db.Decimal(2, 1)
+  status            LeaveStatus  @default(Pending)
+  comments          String?
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  isDeleted         Boolean      @default(false)
+
+  @@index([userId, status])
+  @@index([managerId, status])
+  @@index([leaveTypeId])
+  @@index([fromDate])
+  @@index([toDate])
+}

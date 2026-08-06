@@ -1,0 +1,170 @@
+/* Font declarations and imports can be moved here from legacy project styles. */
+$headline-font: 'Sandvik Sans Headline', sans-serif;
+$text-font: 'Sandvik Sans Text', sans-serif;
+
+// Headline font
+
+@font-face {
+  font-family: 'Sandvik Sans Headline';
+  src:
+    url('../app/fonts/woff2/SandvikSansHeadline-Light.woff2') format('woff2'),
+    url('../app/fonts/woff/SandvikSansHeadline-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Sandvik Sans Headline';
+  src:
+    url('../app/fonts/woff2/SandvikSansHeadline-LightItalic.woff2') format('woff2'),
+    url('../app/fonts/woff/SandvikSansHeadline-LightItalic.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Sandvik Sans Headline';
+  src:
+    url('../app/fonts/woff2/SandvikSansHeadline-Regular.woff2') format('woff2'),
+    url('../app/fonts/woff/SandvikSansHeadline-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Sandvik Sans Headline';
+  src:
+    url('../app/fonts/woff2/SandvikSansHeadline-RegularItalic.woff2') format('woff2'),
+    url('../app/fonts/woff/SandvikSansHeadline-RegularItalic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Sandvik Sans Headline';
+  src:
+    url('../app/fonts/woff2/SandvikSansHeadline-Bold.woff2') format('woff2'),
+    url('../app/fonts/woff/SandvikSansHeadline-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Sandvik Sans Headline';
+  src:
+    url('../app/fonts/woff2/SandvikSansHeadline-BoldItalic.woff2') format('woff2'),
+    url('../app/fonts/woff/SandvikSansHeadline-BoldItalic.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Sandvik Sans Headline';
+  src:
+    url('../app/fonts/woff2/SandvikSansHeadline-ExtraBold.woff2') format('woff2'),
+    url('../app/fonts/woff/SandvikSansHeadline-ExtraBold.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Sandvik Sans Headline';
+  src:
+    url('../app/fonts/woff2/SandvikSansHeadline-ExtraBoldItalic.woff2') format('woff2'),
+    url('../app/fonts/woff/SandvikSansHeadline-ExtraBoldItalic.woff') format('woff');
+  font-weight: 800;
+  font-style: italic;
+}
+
+// Text font
+
+@font-face {
+  font-family: 'Sandvik Sans Text';
+  src:
+    url('../app/fonts/woff2/SandvikSansText-Regular.woff2') format('woff2'),
+    url('../app/fonts/woff/SandvikSansText-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Sandvik Sans Text';
+  src:
+    url('../app/fonts/woff2/SandvikSansText-Bold.woff2') format('woff2'),
+    url('../app/fonts/woff/SandvikSansText-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Sandvik Sans Text';
+  src:
+    url('../app/fonts/woff2/SandvikSansText-BoldItalic.woff2') format('woff2'),
+    url('../app/fonts/woff/SandvikSansText-BoldItalic.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Sandvik Sans Text';
+  src:
+    url('../app/fonts/woff2/SandvikSansText-Light.woff2') format('woff2'),
+    url('../app/fonts/woff/SandvikSansText-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Sandvik Sans Text';
+  src:
+    url('../app/fonts/woff2/SandvikSansText-LightItalic.woff2') format('woff2'),
+    url('../app/fonts/woff/SandvikSansText-LightItalic.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Sandvik Sans Text';
+  src:
+    url('../app/fonts/woff2/SandvikSansText-RegularItalic.woff2') format('woff2'),
+    url('../app/fonts/woff/SandvikSansText-RegularItalic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+}
+
+// Numerals
+
+@font-face {
+  font-family: 'Sandvik Sans Numerals';
+  src:
+    url('../app/fonts/woff2/SandvikSansText-Light.woff2') format('woff2'),
+    url('../app/fonts/woff/SandvikSansText-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Sandvik Sans Numerals';
+  src:
+    url('../app/fonts/woff2/SandvikSansText-Regular.woff2') format('woff2'),
+    url('../app/fonts/woff/SandvikSansText-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+$font-family-sans-serif:
+  'Sandvik Sans Text',
+  system-ui,
+  -apple-system,
+  'Segoe UI',
+  Roboto,
+  'Helvetica Neue',
+  'Noto Sans',
+  'Liberation Sans',
+  Arial,
+  sans-serif,
+  'Apple Color Emoji',
+  'Segoe UI Emoji',
+  'Segoe UI Symbol',
+  'Noto Color Emoji';

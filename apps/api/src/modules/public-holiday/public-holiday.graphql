@@ -1,0 +1,34 @@
+type PublicHoliday {
+  id: ID!
+  holidayDate: DateTime!
+  title: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  isDeleted: Boolean!
+}
+
+input CreatePublicHolidayInput {
+  holidayDate: DateTime!
+  title: String!
+}
+
+input UpdatePublicHolidayInput {
+  holidayDate: DateTime
+  title: String
+}
+
+type PublicHolidayListResponse {
+  results: [PublicHoliday!]!
+  totalCount: Int!
+}
+
+extend type Query {
+  getPublicHolidays(offset: Int, limit: Int): PublicHolidayListResponse!
+  getPublicHolidayById(id: ID!): PublicHoliday
+}
+
+extend type Mutation {
+  createPublicHoliday(input: CreatePublicHolidayInput!): PublicHoliday
+  updatePublicHolidayById(id: ID!, input: UpdatePublicHolidayInput!): PublicHoliday
+  deletePublicHolidayById(id: ID!): PublicHoliday
+}

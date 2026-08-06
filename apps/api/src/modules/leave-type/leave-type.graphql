@@ -1,0 +1,34 @@
+type LeaveType {
+  id: ID!
+  code: String!
+  description: String!
+  createAt: DateTime!
+  updatedAt: DateTime!
+  isDeleted: Boolean!
+}
+
+input CreateLeaveTypeInput {
+  code: String!
+  description: String!
+}
+
+input UpdateLeaveTypeInput {
+  code: String
+  description: String
+}
+
+type LeaveTypeListResponse {
+  results: [LeaveType!]!
+  totalCount: Int!
+}
+
+extend type Query {
+  getLeaveTypes(offset: Int, limit: Int): LeaveTypeListResponse!
+  getLeaveTypeById(id: ID!): LeaveType
+}
+
+extend type Mutation {
+  createLeaveType(input: CreateLeaveTypeInput!): LeaveType
+  updateLeaveTypeById(id: ID!, input: UpdateLeaveTypeInput!): LeaveType
+  deleteLeaveTypeById(id: ID!): LeaveType
+}

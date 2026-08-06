@@ -1,0 +1,430 @@
+/* eslint-disable */
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+/** All built-in and custom scalars, mapped to their actual values */
+export type Scalars = {
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  DateTime: { input: any; output: any; }
+};
+
+export type AuthTokens = {
+  __typename?: 'AuthTokens';
+  accessToken: Scalars['String']['output'];
+  expiresIn: Scalars['Int']['output'];
+  refreshToken: Scalars['String']['output'];
+  tokenType: Scalars['String']['output'];
+};
+
+/** Branch model */
+export type Branch = {
+  __typename?: 'Branch';
+  code: Scalars['String']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  isDeleted: Scalars['Boolean']['output'];
+  location: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+/** Response structure for paginated list of branhces */
+export type BranchListResponse = {
+  __typename?: 'BranchListResponse';
+  results: Array<Branch>;
+  totalCount: Scalars['Int']['output'];
+};
+
+/** CreateBranchInput */
+export type CreateBranchInput = {
+  code: Scalars['String']['input'];
+  location: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+};
+
+export type CreateLeaveTypeInput = {
+  code: Scalars['String']['input'];
+  description: Scalars['String']['input'];
+};
+
+export type CreatePublicHolidayInput = {
+  holidayDate: Scalars['DateTime']['input'];
+  title: Scalars['String']['input'];
+};
+
+export type CreateVendorInput = {
+  contactEmail: Scalars['String']['input'];
+  contactName: Scalars['String']['input'];
+  contactNumber: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+};
+
+export type LeaveType = {
+  __typename?: 'LeaveType';
+  code: Scalars['String']['output'];
+  createAt: Scalars['DateTime']['output'];
+  description: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  isDeleted: Scalars['Boolean']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export type LeaveTypeListResponse = {
+  __typename?: 'LeaveTypeListResponse';
+  results: Array<LeaveType>;
+  totalCount: Scalars['Int']['output'];
+};
+
+export type LoginInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+/** Define the mutations that can be made to the Branch model */
+export type Mutation = {
+  __typename?: 'Mutation';
+  createBranch?: Maybe<Branch>;
+  createLeaveType?: Maybe<LeaveType>;
+  createPublicHoliday?: Maybe<PublicHoliday>;
+  createVendor?: Maybe<Vendor>;
+  deleteBranchById?: Maybe<Branch>;
+  deleteLeaveTypeById?: Maybe<LeaveType>;
+  deletePublicHolidayById?: Maybe<PublicHoliday>;
+  deleteVendorById?: Maybe<Vendor>;
+  login: AuthTokens;
+  logoutAllTabs: Scalars['Boolean']['output'];
+  refreshToken: AuthTokens;
+  register: User;
+  updateBranchById?: Maybe<Branch>;
+  updateLeaveTypeById?: Maybe<LeaveType>;
+  updatePublicHolidayById?: Maybe<PublicHoliday>;
+  updateVendorById?: Maybe<Vendor>;
+};
+
+
+/** Define the mutations that can be made to the Branch model */
+export type MutationCreateBranchArgs = {
+  input: CreateBranchInput;
+};
+
+
+/** Define the mutations that can be made to the Branch model */
+export type MutationCreateLeaveTypeArgs = {
+  input: CreateLeaveTypeInput;
+};
+
+
+/** Define the mutations that can be made to the Branch model */
+export type MutationCreatePublicHolidayArgs = {
+  input: CreatePublicHolidayInput;
+};
+
+
+/** Define the mutations that can be made to the Branch model */
+export type MutationCreateVendorArgs = {
+  input: CreateVendorInput;
+};
+
+
+/** Define the mutations that can be made to the Branch model */
+export type MutationDeleteBranchByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+/** Define the mutations that can be made to the Branch model */
+export type MutationDeleteLeaveTypeByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+/** Define the mutations that can be made to the Branch model */
+export type MutationDeletePublicHolidayByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+/** Define the mutations that can be made to the Branch model */
+export type MutationDeleteVendorByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+/** Define the mutations that can be made to the Branch model */
+export type MutationLoginArgs = {
+  input: LoginInput;
+};
+
+
+/** Define the mutations that can be made to the Branch model */
+export type MutationRefreshTokenArgs = {
+  input: RefreshTokenInput;
+};
+
+
+/** Define the mutations that can be made to the Branch model */
+export type MutationRegisterArgs = {
+  input: RegisterInput;
+};
+
+
+/** Define the mutations that can be made to the Branch model */
+export type MutationUpdateBranchByIdArgs = {
+  id: Scalars['ID']['input'];
+  input: UpdateBranchInput;
+};
+
+
+/** Define the mutations that can be made to the Branch model */
+export type MutationUpdateLeaveTypeByIdArgs = {
+  id: Scalars['ID']['input'];
+  input: UpdateLeaveTypeInput;
+};
+
+
+/** Define the mutations that can be made to the Branch model */
+export type MutationUpdatePublicHolidayByIdArgs = {
+  id: Scalars['ID']['input'];
+  input: UpdatePublicHolidayInput;
+};
+
+
+/** Define the mutations that can be made to the Branch model */
+export type MutationUpdateVendorByIdArgs = {
+  id: Scalars['ID']['input'];
+  input: UpdateVendorInput;
+};
+
+export type PublicHoliday = {
+  __typename?: 'PublicHoliday';
+  createdAt: Scalars['DateTime']['output'];
+  holidayDate: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  isDeleted: Scalars['Boolean']['output'];
+  title: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export type PublicHolidayListResponse = {
+  __typename?: 'PublicHolidayListResponse';
+  results: Array<PublicHoliday>;
+  totalCount: Scalars['Int']['output'];
+};
+
+/** Define the queries that can be made to the Branch model */
+export type Query = {
+  __typename?: 'Query';
+  getBranchById?: Maybe<Branch>;
+  getBranches: BranchListResponse;
+  getLeaveTypeById?: Maybe<LeaveType>;
+  getLeaveTypes: LeaveTypeListResponse;
+  getPublicHolidayById?: Maybe<PublicHoliday>;
+  getPublicHolidays: PublicHolidayListResponse;
+  getVendorById?: Maybe<Vendor>;
+  getVendors: VendorListResponse;
+  health: Scalars['String']['output'];
+  me?: Maybe<User>;
+};
+
+
+/** Define the queries that can be made to the Branch model */
+export type QueryGetBranchByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+/** Define the queries that can be made to the Branch model */
+export type QueryGetBranchesArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  userId?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** Define the queries that can be made to the Branch model */
+export type QueryGetLeaveTypeByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+/** Define the queries that can be made to the Branch model */
+export type QueryGetLeaveTypesArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Define the queries that can be made to the Branch model */
+export type QueryGetPublicHolidayByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+/** Define the queries that can be made to the Branch model */
+export type QueryGetPublicHolidaysArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Define the queries that can be made to the Branch model */
+export type QueryGetVendorByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+/** Define the queries that can be made to the Branch model */
+export type QueryGetVendorsArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type RefreshTokenInput = {
+  refreshToken: Scalars['String']['input'];
+};
+
+export type RegisterInput = {
+  branchId?: InputMaybe<Scalars['ID']['input']>;
+  dateOfBirth: Scalars['DateTime']['input'];
+  dateOfJoining: Scalars['DateTime']['input'];
+  designation: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  emergencyContactName: Scalars['String']['input'];
+  emergencyContactNumber: Scalars['String']['input'];
+  firstName: Scalars['String']['input'];
+  lastName: Scalars['String']['input'];
+  managerId?: InputMaybe<Scalars['ID']['input']>;
+  password: Scalars['String']['input'];
+  phoneNumber: Scalars['String']['input'];
+  userRole: Role;
+  vendorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export enum Role {
+  Admin = 'Admin',
+  Employee = 'Employee',
+  Manager = 'Manager'
+}
+
+/** UpdateBranchInput */
+export type UpdateBranchInput = {
+  code?: InputMaybe<Scalars['String']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateLeaveTypeInput = {
+  code?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdatePublicHolidayInput = {
+  holidayDate?: InputMaybe<Scalars['DateTime']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateVendorInput = {
+  contactEmail?: InputMaybe<Scalars['String']['input']>;
+  contactName?: InputMaybe<Scalars['String']['input']>;
+  contactNumber?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type User = {
+  __typename?: 'User';
+  branchId?: Maybe<Scalars['ID']['output']>;
+  createAt: Scalars['DateTime']['output'];
+  dateOfBirth: Scalars['DateTime']['output'];
+  dateOfJoining: Scalars['DateTime']['output'];
+  designation: Scalars['String']['output'];
+  email: Scalars['String']['output'];
+  emergencyContactName: Scalars['String']['output'];
+  emergencyContactNumber: Scalars['String']['output'];
+  firstName: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  isDeleted: Scalars['Boolean']['output'];
+  lastName: Scalars['String']['output'];
+  managerId?: Maybe<Scalars['ID']['output']>;
+  phoneNumber: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+  userRole: Role;
+  vendorId?: Maybe<Scalars['ID']['output']>;
+};
+
+export type Vendor = {
+  __typename?: 'Vendor';
+  contactEmail: Scalars['String']['output'];
+  contactName: Scalars['String']['output'];
+  contactNumber: Scalars['String']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  isDeleted: Scalars['Boolean']['output'];
+  name: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export type VendorListResponse = {
+  __typename?: 'VendorListResponse';
+  results: Array<Vendor>;
+  totalCount: Scalars['Int']['output'];
+};
+
+export type GetBranchesQueryVariables = Exact<{
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type GetBranchesQuery = { __typename?: 'Query', getBranches: { __typename?: 'BranchListResponse', results: Array<{ __typename?: 'Branch', id: string, name: string, code: string }> } };
+
+export type GetVendorsQueryVariables = Exact<{
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type GetVendorsQuery = { __typename?: 'Query', getVendors: { __typename?: 'VendorListResponse', results: Array<{ __typename?: 'Vendor', id: string, name: string }> } };
+
+export type RegisterUserMutationVariables = Exact<{
+  input: RegisterInput;
+}>;
+
+
+export type RegisterUserMutation = { __typename?: 'Mutation', register: { __typename?: 'User', id: string, email: string } };
+
+export type LoginUserMutationVariables = Exact<{
+  input: LoginInput;
+}>;
+
+
+export type LoginUserMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthTokens', accessToken: string, refreshToken: string, tokenType: string, expiresIn: number } };
+
+export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetMeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, userRole: Role, designation: string, branchId?: string | null, vendorId?: string | null } | null };
+
+export type GetPublicHolidaysQueryVariables = Exact<{
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type GetPublicHolidaysQuery = { __typename?: 'Query', getPublicHolidays: { __typename?: 'PublicHolidayListResponse', results: Array<{ __typename?: 'PublicHoliday', id: string, title: string, holidayDate: any, createdAt: any, isDeleted: boolean, updatedAt: any }> } };
+
+
+export const GetBranchesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBranches"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"offset"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getBranches"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"offset"},"value":{"kind":"Variable","name":{"kind":"Name","value":"offset"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"results"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}}]}}]} as unknown as DocumentNode<GetBranchesQuery, GetBranchesQueryVariables>;
+export const GetVendorsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetVendors"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"offset"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getVendors"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"offset"},"value":{"kind":"Variable","name":{"kind":"Name","value":"offset"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"results"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<GetVendorsQuery, GetVendorsQueryVariables>;
+export const RegisterUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RegisterUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RegisterInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"register"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<RegisterUserMutation, RegisterUserMutationVariables>;
+export const LoginUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LoginUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"refreshToken"}},{"kind":"Field","name":{"kind":"Name","value":"tokenType"}},{"kind":"Field","name":{"kind":"Name","value":"expiresIn"}}]}}]}}]} as unknown as DocumentNode<LoginUserMutation, LoginUserMutationVariables>;
+export const GetMeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"userRole"}},{"kind":"Field","name":{"kind":"Name","value":"designation"}},{"kind":"Field","name":{"kind":"Name","value":"branchId"}},{"kind":"Field","name":{"kind":"Name","value":"vendorId"}}]}}]}}]} as unknown as DocumentNode<GetMeQuery, GetMeQueryVariables>;
+export const GetPublicHolidaysDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPublicHolidays"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"offset"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getPublicHolidays"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"offset"},"value":{"kind":"Variable","name":{"kind":"Name","value":"offset"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"results"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"holidayDate"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isDeleted"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]}}]} as unknown as DocumentNode<GetPublicHolidaysQuery, GetPublicHolidaysQueryVariables>;

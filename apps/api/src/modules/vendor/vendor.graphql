@@ -1,0 +1,40 @@
+type Vendor {
+  id: ID!
+  name: String!
+  contactName: String!
+  contactNumber: String!
+  contactEmail: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  isDeleted: Boolean!
+}
+
+input CreateVendorInput {
+  name: String!
+  contactName: String!
+  contactNumber: String!
+  contactEmail: String!
+}
+
+input UpdateVendorInput {
+  name: String
+  contactName: String
+  contactNumber: String
+  contactEmail: String
+}
+
+type VendorListResponse {
+  results: [Vendor!]!
+  totalCount: Int!
+}
+
+extend type Query {
+  getVendors(offset: Int, limit: Int): VendorListResponse!
+  getVendorById(id: ID!): Vendor
+}
+
+extend type Mutation {
+  createVendor(input: CreateVendorInput!): Vendor
+  updateVendorById(id: ID!, input: UpdateVendorInput!): Vendor
+  deleteVendorById(id: ID!): Vendor
+}

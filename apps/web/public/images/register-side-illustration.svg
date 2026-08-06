@@ -1,0 +1,57 @@
+<svg width="360" height="500" viewBox="0 0 360 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgCard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F9F6FF"/>
+      <stop offset="1" stop-color="#F2EDFF"/>
+    </linearGradient>
+    <linearGradient id="deskTop" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#E8E0FF"/>
+      <stop offset="1" stop-color="#DDD2FF"/>
+    </linearGradient>
+    <linearGradient id="shirt" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6E59EB"/>
+      <stop offset="1" stop-color="#5A44D8"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="360" height="500" rx="24" fill="url(#bgCard)"/>
+
+  <circle cx="302" cy="64" r="20" fill="#E6DCFF"/>
+  <circle cx="56" cy="90" r="11" fill="#ECE4FF"/>
+  <circle cx="296" cy="232" r="9" fill="#E8DFFF"/>
+  <circle cx="70" cy="316" r="7" fill="#EDE5FF"/>
+
+  <rect x="56" y="82" width="52" height="44" rx="11" fill="#FFFFFF" stroke="#E7E0FF"/>
+  <rect x="63" y="97" width="38" height="4" rx="2" fill="#D8CCFF"/>
+  <rect x="63" y="106" width="28" height="4" rx="2" fill="#E8DFFF"/>
+  <rect x="69" y="75" width="7" height="13" rx="3.5" fill="#CBBEFF"/>
+  <rect x="88" y="75" width="7" height="13" rx="3.5" fill="#CBBEFF"/>
+
+  <rect x="222" y="122" width="58" height="45" rx="11" fill="#FFFFFF" stroke="#E7E0FF"/>
+  <rect x="231" y="135" width="40" height="5" rx="2.5" fill="#E1D6FF"/>
+  <rect x="231" y="144" width="30" height="5" rx="2.5" fill="#EFE8FF"/>
+
+  <ellipse cx="180" cy="408" rx="118" ry="16" fill="#E9E1FF"/>
+
+  <rect x="80" y="336" width="200" height="16" rx="8" fill="url(#deskTop)"/>
+  <rect x="94" y="352" width="13" height="54" rx="6.5" fill="#D9CCFF"/>
+  <rect x="253" y="352" width="13" height="54" rx="6.5" fill="#D9CCFF"/>
+
+  <path d="M160 236C160 224 170 214 183 214C196 214 206 224 206 236C206 248 196 258 183 258C170 258 160 248 160 236Z" fill="#FFDCC2"/>
+  <path d="M164 234C164 224 172 217 183 217C194 217 202 224 202 234V244H164V234Z" fill="#2F2B5B"/>
+
+  <path d="M130 324C130 293 154 269 183 269C212 269 236 293 236 324V342H130V324Z" fill="url(#shirt)"/>
+  <path d="M182 285L169 304L183 315L197 304L182 285Z" fill="#5D49DC"/>
+
+  <rect x="190" y="299" width="82" height="49" rx="9" fill="#F7F4FF" stroke="#D8CBFF"/>
+  <rect x="197" y="308" width="46" height="4" rx="2" fill="#CDBEFF"/>
+  <rect x="197" y="316" width="56" height="4" rx="2" fill="#DED3FF"/>
+  <rect x="197" y="324" width="34" height="4" rx="2" fill="#ECE4FF"/>
+
+  <path d="M112 361C112 341 125 325 143 325H150V393H112V361Z" fill="#63B891"/>
+  <path d="M142 325H156C174 325 187 341 187 361V393H142V325Z" fill="#7CC8A4"/>
+  <rect x="121" y="391" width="52" height="12" rx="6" fill="#7A6B54"/>
+
+  <circle cx="294" cy="168" r="15" fill="#FFFFFF" stroke="#E7DFFF"/>
+  <path d="M294 160V168L300 171" stroke="#7A67EB" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,297 @@
+/* Bootstrap imports and variable overrides can be added here.
+   Example:
+   @import 'bootstrap/scss/bootstrap';
+*/
+@import 'bootstrap/scss/mixins/banner';
+@include bsBanner('');
+
+// scss-docs-start Sandvik colors
+$white: #ffffff;
+$gray-100: #f8f8f8;
+$gray-200: #e6e6e6;
+$gray-300: #dadada;
+$gray-400: #9d9d9d;
+$gray-500: #6f6f6f;
+$gray-600: #575757;
+$gray-700: #434343;
+$gray-800: #242424;
+$gray-900: #1b1b1b;
+$black: #101010;
+
+$electric-blue: #1441f5;
+$electric-blue-1: #c8dcff;
+$electric-blue-2: #327dff;
+$electric-blue-3: #003c7d;
+
+$vibant-orange: #f54b00;
+$vibant-orange-1: #ffb991;
+$vibant-orange-2: #ff824b;
+$vibant-orange-3: #7d2300;
+
+$gold: #9c8c6a;
+$gold-1: #ebe6dc;
+$gold-2: #beaf93;
+$gold-3: #73644b;
+
+$system-error: #eb0d0d;
+$system-warning: #ffd74b;
+$system-success: #7fcc5b;
+
+// scss-docs-end Sandvik colors
+
+$blue: $electric-blue;
+$orange: $vibant-orange;
+
+// $body-bg: #F8F9FA;
+$body-color: $gray-600;
+$link-decoration: none;
+
+$primary: $electric-blue;
+$light: $gray-200;
+$light-bg-subtle: $gray-100;
+
+$custom-colors: (
+  'gold': $gold,
+  'gold-1': $gold-1,
+  'gold-2': $gold-2,
+  'gold-3': $gold-3,
+);
+
+$component-active-bg: $electric-blue;
+
+$body-bg-dark: $black;
+
+// scss-docs-start import-stack
+// Configuration
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/variables-dark';
+@import 'bootstrap/scss/maps';
+@import 'bootstrap/scss/utilities';
+@import 'bootstrap/scss/mixins';
+
+$theme-colors: map-merge($theme-colors, $custom-colors);
+// $theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
+// $utilities-colors: map-merge($utilities-colors, $theme-colors-rgb);
+// $utilities-text-colors: map-loop($utilities-colors, rgba-css-var, "$key", "text");
+// $utilities-bg-colors: map-loop($utilities-colors, rgba-css-var, "$key", "bg");
+
+$utilities: map-merge(
+  $utilities,
+  (
+    'color': map-merge(
+        map-get($utilities, 'color'),
+        (
+          values: map-merge(map-get(map-get($utilities, 'color'), 'values'), ($custom-colors)),
+        )
+      ),
+  )
+);
+
+$utilities: map-merge(
+  $utilities,
+  (
+    'background-color': map-merge(
+        map-get($utilities, 'background-color'),
+        (
+          values: map-merge(
+              map-get(map-get($utilities, 'background-color'), 'values'),
+              ($custom-colors)
+            ),
+        )
+      ),
+  )
+);
+
+$utilities: map-merge(
+  $utilities,
+  (
+    'border-color': map-merge(
+        map-get($utilities, 'border-color'),
+        (
+          values: map-merge(
+              map-get(map-get($utilities, 'border-color'), 'values'),
+              ($custom-colors)
+            ),
+        )
+      ),
+  )
+);
+
+:root,
+[data-bs-theme='light'] {
+  --#{$prefix}border-color-rgb: #{to-rgb($border-color)};
+  --#{$prefix}gold-4: #{shade-color($gold-3, 35%)};
+  --#{$prefix}gold-4-rgb: #{to-rgb(shade-color($gold-3, 35%))};
+
+  @each $color, $value in $colors {
+    --#{$prefix}#{$color}-rgb: #{to-rgb($value)};
+  }
+
+  @each $color, $value in $custom-colors {
+    --#{$prefix}#{$color}-rgb: #{to-rgb($value)};
+    --#{$prefix}#{$color}-bg-subtle: #{tint-color($value, 60%)};
+  }
+
+  @each $color, $value in map-merge(map-merge($blues, $oranges), map-merge($reds, $greens)) {
+    --#{$prefix}#{$color}: #{$value};
+  }
+
+  @each $color, $value in map-merge(map-merge($blues, $oranges), map-merge($reds, $greens)) {
+    --#{$prefix}#{$color}: #{$value};
+  }
+
+  $action-btn-color: $gray-500;
+
+  .btn-action {
+    @include button-variant(
+      $background: transparent,
+      $border: transparent,
+      $color: $gray-400,
+      $hover-background: transparent,
+      $hover-border: transparent,
+      $hover-color: $gold-3,
+      $active-background: transparent,
+      $active-border: transparent,
+      $active-color: $gray-900,
+      $disabled-background: transparent,
+      $disabled-border: transparent,
+      $disabled-color: transparent
+    );
+  }
+}
+
+// Layout & components
+@import 'bootstrap/scss/root';
+@import 'bootstrap/scss/reboot';
+@import 'bootstrap/scss/type';
+@import 'bootstrap/scss/images';
+@import 'bootstrap/scss/containers';
+@import 'bootstrap/scss/grid';
+@import 'bootstrap/scss/tables';
+@import 'bootstrap/scss/forms';
+@import 'bootstrap/scss/buttons';
+@import 'bootstrap/scss/transitions';
+@import 'bootstrap/scss/dropdown';
+@import 'bootstrap/scss/button-group';
+@import 'bootstrap/scss/nav';
+@import 'bootstrap/scss/navbar';
+@import 'bootstrap/scss/card';
+@import 'bootstrap/scss/accordion';
+@import 'bootstrap/scss/breadcrumb';
+@import 'bootstrap/scss/pagination';
+@import 'bootstrap/scss/badge';
+@import 'bootstrap/scss/alert';
+@import 'bootstrap/scss/progress';
+@import 'bootstrap/scss/list-group';
+@import 'bootstrap/scss/close';
+@import 'bootstrap/scss/toasts';
+@import 'bootstrap/scss/modal';
+@import 'bootstrap/scss/tooltip';
+@import 'bootstrap/scss/popover';
+@import 'bootstrap/scss/carousel';
+@import 'bootstrap/scss/spinners';
+@import 'bootstrap/scss/offcanvas';
+@import 'bootstrap/scss/placeholders';
+
+// Helpers
+@import 'bootstrap/scss/helpers';
+
+// Utilities
+@import 'bootstrap/scss/utilities/api';
+// scss-docs-end import-stack
+
+$custom-colors-dark: (
+  'gold': shade-color($gold, 10%),
+  'gold-1': shade-color($gold-1, 10%),
+  'gold-2': shade-color($gold-2, 10%),
+  'gold-3': shade-color($gold-3, 10%),
+);
+
+[data-bs-theme='dark'] {
+  --#{$prefix}gold-4: #{shade-color($gold-3, 45%)};
+  --#{$prefix}gold-4-rgb: #{to-rgb(shade-color($gold-3, 45%))};
+
+  --#{$prefix}gray-100: #{$gray-900};
+  --#{$prefix}gray-200: #{$gray-800};
+  --#{$prefix}gray-300: #{$gray-700};
+  --#{$prefix}gray-400: #{$gray-600};
+  --#{$prefix}gray-500: #{$gray-500};
+  --#{$prefix}gray-600: #{$gray-400};
+  --#{$prefix}gray-700: #{$gray-300};
+  --#{$prefix}gray-800: #{$gray-200};
+  --#{$prefix}gray-900: #{$gray-100};
+
+  --#{$prefix}blue-100: #{$blue-900};
+  --#{$prefix}blue-200: #{$blue-800};
+  --#{$prefix}blue-300: #{$blue-700};
+  --#{$prefix}blue-400: #{$blue-600};
+  --#{$prefix}blue-500: #{$blue-500};
+  --#{$prefix}blue-600: #{$blue-400};
+  --#{$prefix}blue-700: #{$blue-300};
+  --#{$prefix}blue-800: #{$blue-200};
+  --#{$prefix}blue-900: #{$blue-100};
+
+  --#{$prefix}orange-100: #{$orange-900};
+  --#{$prefix}orange-200: #{$orange-800};
+  --#{$prefix}orange-300: #{$orange-700};
+  --#{$prefix}orange-400: #{$orange-600};
+  --#{$prefix}orange-500: #{$orange-500};
+  --#{$prefix}orange-600: #{$orange-400};
+  --#{$prefix}orange-700: #{$orange-300};
+  --#{$prefix}orange-800: #{$orange-200};
+  --#{$prefix}orange-900: #{$orange-100};
+
+  --#{$prefix}black: #{$white};
+  --#{$prefix}white: #{$black};
+
+  --#{$prefix}black-rgb: #{to-rgb($white)};
+  --#{$prefix}white-rgb: #{to-rgb($black)};
+
+  --#{$prefix}border-color-rgb: #{to-rgb($border-color-dark)};
+
+  @each $color, $value in $custom-colors-dark {
+    --#{$prefix}#{$color}: #{$value};
+    --#{$prefix}#{$color}-bg: #{$value};
+    --#{$prefix}#{$color}-rgb: #{to-rgb($value)};
+    --#{$prefix}#{$color}-bg-subtle: #{shade-color($value, 85%)};
+  }
+
+  @each $color, $value in ('light': $dark, 'dark': $light) {
+    @if $color == 'dark' {
+      --#{$prefix}#{$color}: #{shade-color($value, 5%)};
+      --#{$prefix}#{$color}-bg: #{shade-color($value, 5%)};
+      --#{$prefix}#{$color}-rgb: #{to-rgb(shade-color($value, 5%))};
+    } @else if $color == 'light' {
+      --#{$prefix}#{$color}: #{tint-color($value, 5%)};
+      --#{$prefix}#{$color}-bg: #{tint-color($value, 5%)};
+      --#{$prefix}#{$color}-rgb: #{to-rgb(tint-color($value, 5%))};
+    }
+
+    .btn-#{$color} {
+      @if $color == 'dark' {
+        @include button-variant(
+          shade-color($value, 5%),
+          $value,
+          $hover-background: shade-color($value, $btn-hover-bg-shade-amount),
+          $hover-border: shade-color($value, $btn-hover-border-shade-amount),
+          $active-background: shade-color($value, $btn-active-bg-shade-amount),
+          $active-border: shade-color($value, $btn-active-border-shade-amount)
+        );
+      } @else if $color == 'light' {
+        @include button-variant(
+          tint-color($value, 5%),
+          $value,
+          $hover-background: tint-color($value, $btn-hover-bg-tint-amount),
+          $hover-border: tint-color($value, $btn-hover-border-tint-amount),
+          $active-background: tint-color($value, $btn-active-bg-tint-amount),
+          $active-border: tint-color($value, $btn-active-border-tint-amount)
+        );
+      }
+    }
+
+    .btn-outline-#{$color} {
+      @include button-outline-variant($value);
+    }
+  }
+}

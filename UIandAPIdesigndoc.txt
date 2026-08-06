@@ -1,0 +1,562 @@
+
+
+
+
+
+Act as a senior Full Stack Architect.
+
+I want you to generate ONLY the project scaffold and folder structure for a production-ready full-stack monorepo application.
+
+Project Name:
+Leave Management System
+
+Important Constraints
+
+- DO NOT implement any business logic.
+- DO NOT implement authentication.
+- DO NOT implement leave management features.
+- DO NOT generate UI pages or designs.
+- DO NOT create mock data.
+- DO NOT create API resolvers or services.
+- DO NOT write application code beyond the minimum boilerplate required for the framework to run.
+- There is currently NO Figma or UI design available.
+- Focus only on architecture, project setup, folder organization, configuration, and reusable boilerplate.
+
+Tech Stack
+
+Frontend
+- Next.js (latest App Router)
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Custom theme support
+- Custom fonts
+- Apollo Client
+- urql
+- GraphQL Code Generator ready
+- ESLint
+- Prettier
+
+Backend
+- NestJS
+- GraphQL (Code First)
+- Apollo Server
+- PostgreSQL
+- Prisma ORM
+- Config Module
+- ValidationPipe
+- Docker support
+
+Database
+- PostgreSQL
+- Docker Compose
+
+Monorepo
+- Turborepo
+- pnpm workspaces
+
+Shared Packages
+
+Create reusable packages for:
+
+packages/
+    ui/
+        Shared shadcn components
+        Theme
+        Typography
+        Providers
+
+    config/
+        Shared ESLint
+        Shared TSConfig
+        Shared Prettier
+
+    graphql/
+        Shared GraphQL types
+        Fragments
+        Generated Types
+        Queries
+        Mutations
+        Subscriptions
+
+    types/
+        Shared DTOs
+        Shared interfaces
+        Shared enums
+
+    utils/
+        Shared helpers
+
+Applications
+
+apps/
+    web/
+        Next.js application
+
+    api/
+        NestJS application
+
+Repository Structure
+
+Generate a clean scalable folder structure similar to enterprise applications.
+
+Example (adapt and improve if needed)
+
+apps/
+packages/
+scripts/
+.github/
+turbo.json
+pnpm-workspace.yaml
+docker-compose.yml
+README.md
+
+Frontend Structure
+
+Include folders for
+
+app/
+components/
+features/
+graphql/
+hooks/
+providers/
+layouts/
+styles/
+fonts/
+lib/
+config/
+types/
+utils/
+
+Create only placeholder files where necessary.
+
+Backend Structure
+
+Include folders for
+
+src/
+    modules/
+    common/
+    config/
+    database/
+    graphql/
+    guards/
+    interceptors/
+    decorators/
+    filters/
+    middleware/
+    pipes/
+    providers/
+
+Each module should contain only placeholder files.
+
+Prisma
+
+Create
+
+prisma/
+    schema.prisma
+    migrations/
+
+No models yet.
+
+GraphQL
+
+Prepare the project for
+
+Apollo
+urql
+GraphQL Code Generator
+
+but do not create any schema.
+
+Only configuration placeholders.
+
+Docker
+
+Create
+
+docker-compose.yml
+
+with
+
+- PostgreSQL
+- volumes
+- network
+
+Environment
+
+Create
+
+.env.example
+
+for
+
+Database URL
+
+JWT placeholders
+
+GraphQL endpoint
+
+Application URLs
+
+Ports
+
+Configuration
+
+Setup
+
+TypeScript
+
+ESLint
+
+Prettier
+
+Husky
+
+lint-staged
+
+Commitlint
+
+EditorConfig
+
+Turbo configuration
+
+Workspace configuration
+
+VSCode settings
+
+CI Ready
+
+GitHub
+
+Create
+
+.github/
+
+with
+
+workflows/
+
+placeholder CI pipeline
+
+README
+
+Generate a professional README including
+
+Project overview
+
+Architecture
+
+Folder structure
+
+Getting Started
+
+Scripts
+
+Environment Variables
+
+Future Modules
+
+Expected Future Features (placeholders only)
+
+Employee Module
+
+Department Module
+
+Leave Module
+
+Approval Module
+
+Holiday Module
+
+Attendance Module
+
+Notification Module
+
+Audit Logs
+
+Reports
+
+Roles
+
+Permissions
+
+Dashboard
+
+Again,
+
+DO NOT implement any functionality.
+
+The output should be a clean, production-ready scaffold with placeholder files and comments explaining the purpose of each directory.
+
+Think like a software architect designing the foundation for a large enterprise application.
+
+
+
+
+
+// Existing application details
+
+Roles -> Admin, Manager, Employee
+
+============================================================= Admin =================================================================
+Side Menu 
+	- Availed
+	- Status
+	- Leave Approval
+	- Admin Console
+	- Admin Reports
+
+Admin Views and its pages 
+	- Leaves availed -> who all took the leaves
+	- Leaves Status -> Detials of individual leaves status
+	- Leave approval -> Pending, Approved and Rejected
+	
+Admin Console Pages
+	- Users
+	- Vendors
+	- Branches
+	- Public Holidays
+	- Leave Types
+	
+Admin Reports 
+	- Leaves Availed
+	- Leave Status
+
+=============================================================== Manager =================================================================
+Side Menu 
+	- Leaves Availed
+	- Leaves Status
+	- Leave Approval
+	
+Manager views and its pages
+	 - Leaves Availed -> who all took the leaves
+	 - Leaves Status -> Detials of individual leaves status
+	 - Leaves Approval -> Pending, Approved and Rejected
+
+	 
+============================================================= Employee =================================================================
+Side Menu 
+	- Apply Leave 
+	- Status
+	- Leave Approval
+	
+Employee views and its pages
+	 - Leaves Availed -> who all took the leaves
+	 - Leaves Status -> Detials of individual leaves status
+	 - Leaves Approval -> Pending, Approved and Rejected
+	
+=========================================================================================================================================
+
+															DB TABLES
+
+Users   
+	-id
+	-displayName
+	- email
+	- role
+	- branchId
+	- vendorId
+	- ManagerId
+	- createdAt
+	- updatedAt
+	- isDeleted
+	
+	
+Branches 
+	- id
+	- code
+	- name
+	- location
+	- createdAt
+	- updatedAt
+	- isDeleted
+	
+	
+Vendors
+	- id
+	- name
+	- contactname
+	- contactemail
+	- contactphone
+	- createdAt
+	- updatedAt
+	- isDeleted
+	
+	
+PublicHolidays
+	- id
+	- holidayDate
+	- title
+	- createdAt
+	- updatedAt
+	- isDeleted
+	
+	
+LeaveTypes
+	- id
+	- code
+	- description
+	- createdAt
+	- updatedAt
+	- isDeleted
+	
+LeaveTracker
+	- id
+	- userId
+	- Year
+	- OpeningLeaveCount
+	- ApprovedLeaveCount
+	- PendingLeaveCount
+	- CancelledLeaveCount
+	- RejectedLeaveCount
+	- createdAt
+	- updatedAt
+	- isDeleted
+	
+LeaveApplications
+	- id
+	- currentUserId
+	- ApprovedUserId
+	- LeaveTypeId
+	- Reason
+	- FromDate
+	- ToDate
+	- TotalDays
+	- Status
+	- comments
+	- CreatedAt
+	- updatedAt
+	- isDeleted
+	
+
+Seed Data 
+
+Vendors
+Public Holidays
+Leave Types
+Branches
+
+												
+=======================================================================================================================================
+=======================================================================================================================================
+
+Use this prompt in Google Stitch:
+
+---
+
+**Prompt:**
+
+Design a **modern, clean, and responsive Leave Management web application** that seamlessly integrates with the existing application. The new screens should follow the current design system, navigation, typography, spacing, and component styles so they feel like a natural extension of the existing product. Use a **minimal color palette** (primarily neutrals with one accent color), subtle shadows, rounded corners, and clean layouts. Avoid excessive colors, gradients, or visual clutter.
+
+### Core Features
+
+Create the following pages and flows:
+
+1. **Leave Dashboard**
+
+   * Leave balance cards (Casual Leave, Sick Leave, Earned Leave, etc.)
+   * Upcoming approved leaves
+   * Recent leave requests with status
+   * Team leave calendar preview
+   * Quick action to apply for leave
+
+2. **Apply Leave**
+
+   * Leave type selection
+   * Start date and end date picker
+   * Half-day option
+   * Total leave calculation
+   * Reason for leave
+   * Attachment upload (optional)
+   * Emergency contact (optional)
+   * Submit and Save as Draft actions
+
+3. **My Leave Requests**
+
+   * Filter by status, leave type, and date
+   * Search functionality
+   * Card or table view
+   * Status badges (Pending, Approved, Rejected, Cancelled)
+   * View request details
+   * Cancel request when allowed
+
+4. **Leave Details**
+
+   * Complete leave information
+   * Timeline showing submission, approval, rejection, or cancellation
+   * Manager comments
+   * Attachment preview
+
+5. **Manager Approval**
+
+   * Pending requests
+   * Employee leave history summary
+   * Team availability during requested dates
+   * Approve, Reject, or Request Changes
+   * Comment section
+   * Bulk approval support
+
+6. **Team Leave Calendar**
+
+   * Monthly and weekly calendar views
+   * Team member leave indicators
+   * Filters by department and leave type
+
+### Business Rules & Edge Cases
+
+Design the UI to clearly handle these scenarios:
+
+* Employees **cannot apply for more than 3 consecutive leave days** without manager approval.
+* If the selected leave duration exceeds **3 continuous days**, display a clear informational message:
+
+  * "Leaves exceeding 3 consecutive days require manager approval."
+* Allow submission, but automatically mark the request as **Pending Manager Approval**.
+* Highlight the approval requirement before submission.
+
+Handle additional edge cases gracefully:
+
+* Start date cannot be after end date.
+* Past dates cannot be selected unless policy allows.
+* Prevent overlapping leave requests.
+* Prevent duplicate requests for the same dates.
+* Validate sufficient leave balance before submission.
+* Show warnings when leave balance is insufficient.
+* Handle public holidays and weekends:
+
+  * Clearly indicate whether they count as leave based on policy.
+* Support half-day leaves.
+* Allow cancellation only before approval or according to policy.
+* Show informative empty states when there are no leave requests.
+* Display loading, success, validation, and error states consistently.
+* Support mobile-responsive layouts.
+
+### UX Expectations
+
+* Simple multi-step leave application flow.
+* Sticky summary panel showing selected dates and total leave count.
+* Inline validation with helpful messages.
+* Confirmation dialog before final submission.
+* Success screen after submission.
+* Clear status indicators using subtle colors.
+* Accessible forms with keyboard navigation and proper spacing.
+* Modern tables with sorting, filtering, and pagination.
+* Consistent cards, modals, date pickers, dropdowns, and badges.
+* Smooth micro-interactions and subtle animations.
+
+### Visual Design
+
+* Modern enterprise HRMS aesthetic.
+* Minimalistic interface with generous whitespace.
+* Soft gray backgrounds with white content cards.
+* One primary accent color for actions and status highlights.
+* Rounded corners (8–12px).
+* Light shadows.
+* Clean icons.
+* Responsive design for desktop, tablet, and mobile.
+* Maintain consistency with the existing application's layout, navigation, and component library rather than introducing a new visual language.
+
+The overall experience should feel polished, lightweight, professional, and suitable for a production-grade enterprise Leave Management System while enforcing business rules through intuitive, user-friendly interactions.
+												

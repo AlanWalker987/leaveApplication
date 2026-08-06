@@ -1,0 +1,69 @@
+enum Role {
+  Admin
+  Manager
+  Employee
+}
+
+type User {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  managerId: ID
+  branchId: ID
+  vendorId: ID
+  userRole: Role!
+  phoneNumber: String!
+  designation: String!
+  dateOfBirth: DateTime!
+  dateOfJoining: DateTime!
+  emergencyContactName: String!
+  emergencyContactNumber: String!
+  createAt: DateTime!
+  updatedAt: DateTime!
+  isDeleted: Boolean!
+}
+
+type AuthTokens {
+  accessToken: String!
+  refreshToken: String!
+  tokenType: String!
+  expiresIn: Int!
+}
+
+input RegisterInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+  managerId: ID
+  branchId: ID
+  vendorId: ID
+  userRole: Role!
+  phoneNumber: String!
+  designation: String!
+  dateOfBirth: DateTime!
+  dateOfJoining: DateTime!
+  emergencyContactName: String!
+  emergencyContactNumber: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input RefreshTokenInput {
+  refreshToken: String!
+}
+
+extend type Query {
+  me: User
+}
+
+extend type Mutation {
+  register(input: RegisterInput!): User!
+  login(input: LoginInput!): AuthTokens!
+  refreshToken(input: RefreshTokenInput!): AuthTokens!
+  logoutAllTabs: Boolean!
+}

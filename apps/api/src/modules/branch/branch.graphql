@@ -1,0 +1,58 @@
+scalar DateTime
+
+"""
+Branch model
+"""
+type Branch {
+  id: ID!
+  code: String!
+  name: String!
+  location: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  isDeleted: Boolean!
+}
+
+"""
+CreateBranchInput
+"""
+input CreateBranchInput {
+  code: String!
+  name: String!
+  location: String!
+}
+
+"""
+UpdateBranchInput
+"""
+input UpdateBranchInput {
+  code: String
+  name: String
+  location: String
+}
+
+"""
+Response structure for paginated list of branhces
+"""
+type BranchListResponse {
+  results: [Branch!]!
+  totalCount: Int!
+}
+
+"""
+Define the queries that can be made to the Branch model
+"""
+type Query {
+  health: String!
+  getBranches(offset: Int, limit: Int, userId: String): BranchListResponse!
+  getBranchById(id: ID!): Branch
+}
+
+"""
+Define the mutations that can be made to the Branch model
+"""
+type Mutation {
+  createBranch(input: CreateBranchInput!): Branch
+  updateBranchById(id: ID!, input: UpdateBranchInput!): Branch
+  deleteBranchById(id: ID!): Branch
+}

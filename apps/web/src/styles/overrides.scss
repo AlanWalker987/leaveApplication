@@ -1,0 +1,85 @@
+/* App-specific legacy overrides can be moved here. */
+body {
+  overflow: hidden;
+  background-color: var(--bs-gray-100);
+}
+
+.text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.btn-gold {
+  --bs-btn-color: var(--bs-body-bg);
+  --bs-btn-hover-color: var(--bs-body-bg);
+  --bs-btn-active-color: var(--bs-body-bg);
+  --bs-btn-disabled-color: var(--bs-gray-200);
+}
+
+.btn-gold-1 {
+  --bs-btn-color: var(--bs-body-color);
+  --bs-btn-hover-color: var(--bs-body-color);
+  --bs-btn-active-color: var(--bs-body-color);
+  --bs-btn-disabled-color: var(--bs-gray);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+.headline {
+  font-family: 'Sandvik Sans Headline', var(--bs-font-sans-serif);
+  color: var(--bs-gray-700);
+}
+
+.numeral {
+  font-family: 'Sandvik Sans Numerals';
+}
+
+.text-gold-emphasis {
+  color: var(--bs-gold-3);
+}
+
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label,
+.form-floating > .form-control-plaintext ~ label,
+.form-floating > .form-select ~ label {
+  color: var(--bs-body-color);
+}
+
+.modal-content {
+  box-shadow: var(--bs-box-shadow-lg);
+}
+
+.dropdown-menu {
+  --bs-dropdown-border-color: var(--bs-border-color);
+  box-shadow: var(--bs-dropdown-box-shadow);
+}
+
+.form-control {
+  background-color: var(--bs-body-bg);
+}
+
+.card {
+  --bs-card-bg: var(--bs-body-bg);
+  --bs-card-cap-bg: var(--bs-body-bg);
+  --bs-card-border-color: transparent;
+  --bs-card-color: var(--bs-body-color);
+  box-shadow: var(--bs-box-shadow-sm);
+  position: inherit;
+}
+
+// [data-bs-theme="dark"] {
+//     body {
+//         background-color: var(--bs-gray-100);
+//     }
+// }

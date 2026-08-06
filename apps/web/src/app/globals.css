@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: 'Sandvik Sans Text', sans-serif;
+  --font-heading: 'Sandvik Sans Headline', sans-serif;
+  --radius: 0.5rem;
+  --background: 142 37% 94%;
+  --foreground: 156 40% 15%;
+  --card: 0 0% 100%;
+  --card-foreground: 156 40% 15%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 156 40% 15%;
+  --primary: 145 53% 36%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 144 36% 89%;
+  --secondary-foreground: 156 40% 15%;
+  --muted: 142 24% 92%;
+  --muted-foreground: 152 19% 42%;
+  --accent: 143 38% 87%;
+  --accent-foreground: 156 40% 15%;
+  --destructive: 0 52% 44%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 144 30% 82%;
+  --input: 144 30% 82%;
+  --ring: 145 53% 36%;
+  --color-bg: #edf5ef;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f7fbf8;
+  --color-ink: #17352c;
+  --color-muted: #5a7569;
+  --color-brand: #2c8e5b;
+  --color-brand-deep: #1f6a42;
+  --color-brand-soft: #d4efe0;
+  --color-border: #c6ddd1;
+  --color-danger: #a43939;
+  --shadow-strong: 0 24px 60px -32px rgba(23, 53, 44, 0.5);
+}
+
+.dark {
+  --background: 156 30% 10%;
+  --foreground: 0 0% 98%;
+  --card: 156 28% 12%;
+  --card-foreground: 0 0% 98%;
+  --popover: 156 28% 12%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 145 53% 46%;
+  --primary-foreground: 156 30% 10%;
+  --secondary: 156 22% 20%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 156 22% 18%;
+  --muted-foreground: 145 12% 72%;
+  --accent: 156 22% 20%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62% 50%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 156 18% 24%;
+  --input: 156 18% 24%;
+  --ring: 145 53% 46%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html,
+  body {
+    min-height: 100%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background-color: var(--color-bg);
+    background-image:
+      radial-gradient(circle at 12% -8%, rgba(44, 142, 91, 0.2), transparent 42%),
+      radial-gradient(circle at 88% 4%, rgba(31, 106, 66, 0.15), transparent 38%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(237, 245, 239, 0.95) 100%);
+  }
+}
+
+/* Hide built-in browser password reveal controls when using a custom eye toggle. */
+.no-native-password-toggle::-ms-reveal,
+.no-native-password-toggle::-ms-clear,
+.no-native-password-toggle::-webkit-credentials-auto-fill-button {
+  display: none;
+}
