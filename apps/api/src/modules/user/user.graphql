@@ -57,8 +57,14 @@ input RefreshTokenInput {
   refreshToken: String!
 }
 
+type UserListResponse {
+  results: [User!]!
+  totalCount: Int!
+}
+
 extend type Query {
   me: User
+  getAllUsers(offset: Int, limit: Int): UserListResponse!
 }
 
 extend type Mutation {

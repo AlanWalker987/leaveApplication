@@ -92,22 +92,22 @@ export default function EmployeeLayout({ children }: EmployeeLayoutProps) {
   }
 
   return (
-    <main className="h-screen overflow-hidden bg-[#f4f6fb] text-[#0f172a]">
-      <header className="flex h-14 items-center justify-between border-b border-slate-200 bg-white px-4 md:px-6">
+    <main className="h-screen overflow-hidden bg-[#f8f8f8] text-[#1b1b1b]">
+      <header className="flex h-14 items-center justify-between border-b border-[#e6e6e6] bg-white px-4 md:px-6">
         <div className="flex items-center gap-3">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-[#1d4ed8] text-sm font-bold text-white">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-[#101010] text-sm font-bold text-white">
             L
           </span>
-          <p className="text-[15px] font-semibold text-slate-900">Leave Management System</p>
+          <p className="text-[15px] font-semibold text-[#1b1b1b]">Leave Management System</p>
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
+          <span className="rounded-full bg-[#f8f8f8] px-3 py-1 text-xs font-medium text-[#575757]">
             {user?.firstName} {user?.lastName}
           </span>
           <button
             type="button"
-            className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+            className="rounded-md border border-[#e6e6e6] bg-white px-3 py-1.5 text-xs font-semibold text-[#575757] hover:bg-[#f8f8f8]"
             onClick={onLogout}
           >
             Logout
@@ -116,7 +116,7 @@ export default function EmployeeLayout({ children }: EmployeeLayoutProps) {
       </header>
 
       <section className="grid h-[calc(100vh-56px)] grid-cols-1 overflow-hidden md:grid-cols-[240px_1fr]">
-        <aside className="overflow-y-auto border-r border-slate-200 bg-[#1f2937] p-3 text-slate-100">
+        <aside className="overflow-y-auto border-r border-[#e6e6e6] bg-[#ffffff] p-3 text-[#101010]">
           <nav className="space-y-1.5">
             {menuItems.map((item) => {
               const active = pathname === item.path;
@@ -126,8 +126,8 @@ export default function EmployeeLayout({ children }: EmployeeLayoutProps) {
                   href={item.path}
                   className={`block rounded-lg px-3 py-2.5 text-sm transition ${
                     active
-                      ? 'bg-slate-600/60 font-semibold text-white'
-                      : 'text-slate-300 hover:bg-slate-700/70 hover:text-white'
+                      ? 'bg-[#101010] font-semibold text-[#ffffff]'
+                      : 'text-[#101010] hover:bg-[#101010] hover:text-[#ffffff] active:bg-[#101010] active:text-[#ffffff]'
                   }`}
                 >
                   {item.label}
@@ -137,7 +137,7 @@ export default function EmployeeLayout({ children }: EmployeeLayoutProps) {
           </nav>
         </aside>
 
-        <section className="min-w-0 overflow-y-auto">{children}</section>
+        <section className="min-w-0 overflow-y-auto p-4 md:p-5">{children}</section>
       </section>
     </main>
   );

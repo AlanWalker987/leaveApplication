@@ -11,6 +11,7 @@ import { UserModule } from './modules/user/user.module';
 import { LeaveTypeModule } from './modules/leave-type/leave-type.module';
 import { PublicHolidayModule } from './modules/public-holiday/public-holiday.module';
 import { VendorModule } from './modules/vendor/vendor.module';
+import { DepartmentModule } from './modules/department/department.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { VendorModule } from './modules/vendor/vendor.module';
     LeaveTypeModule,
     PublicHolidayModule,
     VendorModule,
+    DepartmentModule,
   ],
   providers: [AppResolver],
 })

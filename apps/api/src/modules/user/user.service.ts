@@ -119,6 +119,27 @@ export class UserService {
     return this.toGraphqlUser(createdUser);
   }
 
+  async getAllUsers(pagination: {
+    offset: number;
+    limit: number;
+  }): Promise<GraphqlTypes.UserListResponse> {
+    const { offset, limit } = pagination;
+    const users = await this.prismaService.user.findMany({
+      where: { isDeleted: false },
+      skip: offset,
+      take: limit,
+    });
+
+    const totalCount = await this.prismaService.user.count({
+      where: { isDeleted: false },
+    });
+
+    return {
+      results: users.map((user) => this.toGraphqlUser(user)),
+      totalCount,
+    };
+  }
+
   async login(input: GraphqlTypes.LoginInput): Promise<GraphqlTypes.AuthTokens> {
     const email = this.normalizeEmail(input.email);
 

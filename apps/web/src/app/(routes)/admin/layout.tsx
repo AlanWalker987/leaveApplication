@@ -16,8 +16,11 @@ type AdminLayoutProps = {
 
 const menuItems = [
   { path: '/admin', label: 'Dashboard' },
-  { path: '/admin/user-management', label: 'User Management' },
-  { path: '/admin/leave-policies', label: 'Leave Policies' },
+  { path: '/admin/leaves-availed', label: 'Leaves Availed' },
+  { path: '/admin/leave-status', label: 'Leave Status' },
+  { path: '/admin/leave-approval', label: 'Leave Approval' },
+  { path: '/admin/admin-console', label: 'Admin Console' },
+  { path: '/admin/reports', label: 'Reports' },
 ] as const;
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
@@ -74,21 +77,21 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   }
 
   return (
-    <main className="min-h-screen bg-[#f4f6fb] text-[#0f172a]">
-      <header className="flex h-14 items-center justify-between border-b border-slate-200 bg-white px-4 md:px-6">
-        <div className="flex items-center gap-3">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-[#1d4ed8] text-sm font-bold text-white">
+    <main className="min-h-screen bg-[#f8f8f8] text-[#1b1b1b]">
+      <header className="flex h-14 items-center justify-between border-b border-[#e6e6e6] bg-white px-4 md:px-6">
+        <div className="flex items-center justify-center gap-3 text-center">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-[#101010] text-sm font-bold text-white">
             L
           </span>
-          <p className="text-[15px] font-semibold text-slate-900">Leave Management System</p>
+          <p className="text-[15px] font-semibold text-[#1b1b1b]">Leave Management System</p>
         </div>
         <div className="flex items-center gap-3">
-          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
+          <span className="rounded-full bg-[#f8f8f8] px-3 py-1 text-xs font-medium text-[#575757]">
             Admin
           </span>
           <button
             type="button"
-            className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+            className="rounded-md border border-[#e6e6e6] bg-white px-3 py-1.5 text-xs font-semibold text-[#575757] hover:bg-[#f8f8f8]"
             onClick={onLogout}
           >
             Logout
@@ -96,19 +99,21 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </div>
       </header>
 
-      <section className="grid min-h-[calc(100vh-56px)] grid-cols-1 md:grid-cols-[240px_1fr]">
-        <aside className="border-r border-slate-200 bg-[#1f2937] p-3 text-slate-100">
+      <section className="grid h-[calc(100vh-56px)] grid-cols-1 md:grid-cols-[240px_1fr]">
+        <aside className="border-r border-[#e6e6e6] bg-white p-3 text-[#101010] overflow-y-auto">
           <nav className="space-y-1.5">
             {menuItems.map((item) => {
-              const active = pathname === item.path;
+              const active =
+                pathname === item.path ||
+                (item.path !== '/admin' && pathname.startsWith(item.path + '/'));
               return (
                 <Link
                   key={item.path}
                   href={item.path}
-                  className={`block rounded-lg px-3 py-2.5 text-sm transition ${
+                  className={`block rounded-lg px-3 py-2.5 text-sm font-medium transition duration-200 ${
                     active
-                      ? 'bg-slate-600/60 font-semibold text-white'
-                      : 'text-slate-300 hover:bg-slate-700/70 hover:text-white'
+                      ? 'bg-black text-white shadow-sm'
+                      : 'bg-white text-black hover:bg-black hover:text-white'
                   }`}
                 >
                   {item.label}
@@ -118,7 +123,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           </nav>
         </aside>
 
-        <section className="p-4 md:p-5">{children}</section>
+        <section className="overflow-y-auto p-6 md:p-8">{children}</section>
       </section>
     </main>
   );

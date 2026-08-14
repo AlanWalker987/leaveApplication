@@ -5,16 +5,19 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = {
+  [_ in K]?: never;
+};
+export type Incremental<T> =
+  T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  DateTime: { input: any; output: any; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  DateTime: { input: any; output: any };
 };
 
 export type AuthTokens = {
@@ -51,6 +54,13 @@ export type CreateBranchInput = {
   name: Scalars['String']['input'];
 };
 
+export type CreateDepartmentInput = {
+  location: Scalars['String']['input'];
+  managerId: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  subtitle: Scalars['String']['input'];
+};
+
 export type CreateLeaveTypeInput = {
   code: Scalars['String']['input'];
   description: Scalars['String']['input'];
@@ -66,6 +76,24 @@ export type CreateVendorInput = {
   contactName: Scalars['String']['input'];
   contactNumber: Scalars['String']['input'];
   name: Scalars['String']['input'];
+};
+
+export type Department = {
+  __typename?: 'Department';
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  isDeleted: Scalars['Boolean']['output'];
+  location: Scalars['String']['output'];
+  managerId: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  subtitle: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export type DepartmentListResponse = {
+  __typename?: 'DepartmentListResponse';
+  results: Array<Department>;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type LeaveType = {
@@ -93,10 +121,12 @@ export type LoginInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createBranch?: Maybe<Branch>;
+  createDepartment?: Maybe<Department>;
   createLeaveType?: Maybe<LeaveType>;
   createPublicHoliday?: Maybe<PublicHoliday>;
   createVendor?: Maybe<Vendor>;
   deleteBranchById?: Maybe<Branch>;
+  deleteDepartmentById?: Maybe<Department>;
   deleteLeaveTypeById?: Maybe<LeaveType>;
   deletePublicHolidayById?: Maybe<PublicHoliday>;
   deleteVendorById?: Maybe<Vendor>;
@@ -105,77 +135,76 @@ export type Mutation = {
   refreshToken: AuthTokens;
   register: User;
   updateBranchById?: Maybe<Branch>;
+  updateDepartmentById?: Maybe<Department>;
   updateLeaveTypeById?: Maybe<LeaveType>;
   updatePublicHolidayById?: Maybe<PublicHoliday>;
   updateVendorById?: Maybe<Vendor>;
 };
-
 
 /** Define the mutations that can be made to the Branch model */
 export type MutationCreateBranchArgs = {
   input: CreateBranchInput;
 };
 
+/** Define the mutations that can be made to the Branch model */
+export type MutationCreateDepartmentArgs = {
+  input: CreateDepartmentInput;
+};
 
 /** Define the mutations that can be made to the Branch model */
 export type MutationCreateLeaveTypeArgs = {
   input: CreateLeaveTypeInput;
 };
 
-
 /** Define the mutations that can be made to the Branch model */
 export type MutationCreatePublicHolidayArgs = {
   input: CreatePublicHolidayInput;
 };
-
 
 /** Define the mutations that can be made to the Branch model */
 export type MutationCreateVendorArgs = {
   input: CreateVendorInput;
 };
 
-
 /** Define the mutations that can be made to the Branch model */
 export type MutationDeleteBranchByIdArgs = {
   id: Scalars['ID']['input'];
 };
 
+/** Define the mutations that can be made to the Branch model */
+export type MutationDeleteDepartmentByIdArgs = {
+  id: Scalars['ID']['input'];
+};
 
 /** Define the mutations that can be made to the Branch model */
 export type MutationDeleteLeaveTypeByIdArgs = {
   id: Scalars['ID']['input'];
 };
 
-
 /** Define the mutations that can be made to the Branch model */
 export type MutationDeletePublicHolidayByIdArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 /** Define the mutations that can be made to the Branch model */
 export type MutationDeleteVendorByIdArgs = {
   id: Scalars['ID']['input'];
 };
 
-
 /** Define the mutations that can be made to the Branch model */
 export type MutationLoginArgs = {
   input: LoginInput;
 };
-
 
 /** Define the mutations that can be made to the Branch model */
 export type MutationRefreshTokenArgs = {
   input: RefreshTokenInput;
 };
 
-
 /** Define the mutations that can be made to the Branch model */
 export type MutationRegisterArgs = {
   input: RegisterInput;
 };
-
 
 /** Define the mutations that can be made to the Branch model */
 export type MutationUpdateBranchByIdArgs = {
@@ -183,6 +212,11 @@ export type MutationUpdateBranchByIdArgs = {
   input: UpdateBranchInput;
 };
 
+/** Define the mutations that can be made to the Branch model */
+export type MutationUpdateDepartmentByIdArgs = {
+  id: Scalars['ID']['input'];
+  input: UpdateDepartmentInput;
+};
 
 /** Define the mutations that can be made to the Branch model */
 export type MutationUpdateLeaveTypeByIdArgs = {
@@ -190,13 +224,11 @@ export type MutationUpdateLeaveTypeByIdArgs = {
   input: UpdateLeaveTypeInput;
 };
 
-
 /** Define the mutations that can be made to the Branch model */
 export type MutationUpdatePublicHolidayByIdArgs = {
   id: Scalars['ID']['input'];
   input: UpdatePublicHolidayInput;
 };
-
 
 /** Define the mutations that can be made to the Branch model */
 export type MutationUpdateVendorByIdArgs = {
@@ -223,8 +255,11 @@ export type PublicHolidayListResponse = {
 /** Define the queries that can be made to the Branch model */
 export type Query = {
   __typename?: 'Query';
+  getAllUsers: UserListResponse;
   getBranchById?: Maybe<Branch>;
   getBranches: BranchListResponse;
+  getDepartmentById?: Maybe<Department>;
+  getDepartments: DepartmentListResponse;
   getLeaveTypeById?: Maybe<LeaveType>;
   getLeaveTypes: LeaveTypeListResponse;
   getPublicHolidayById?: Maybe<PublicHoliday>;
@@ -235,12 +270,16 @@ export type Query = {
   me?: Maybe<User>;
 };
 
+/** Define the queries that can be made to the Branch model */
+export type QueryGetAllUsersArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+};
 
 /** Define the queries that can be made to the Branch model */
 export type QueryGetBranchByIdArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 /** Define the queries that can be made to the Branch model */
 export type QueryGetBranchesArgs = {
@@ -249,12 +288,21 @@ export type QueryGetBranchesArgs = {
   userId?: InputMaybe<Scalars['String']['input']>;
 };
 
+/** Define the queries that can be made to the Branch model */
+export type QueryGetDepartmentByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+/** Define the queries that can be made to the Branch model */
+export type QueryGetDepartmentsArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+};
 
 /** Define the queries that can be made to the Branch model */
 export type QueryGetLeaveTypeByIdArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 /** Define the queries that can be made to the Branch model */
 export type QueryGetLeaveTypesArgs = {
@@ -262,12 +310,10 @@ export type QueryGetLeaveTypesArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** Define the queries that can be made to the Branch model */
 export type QueryGetPublicHolidayByIdArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 /** Define the queries that can be made to the Branch model */
 export type QueryGetPublicHolidaysArgs = {
@@ -275,12 +321,10 @@ export type QueryGetPublicHolidaysArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** Define the queries that can be made to the Branch model */
 export type QueryGetVendorByIdArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 /** Define the queries that can be made to the Branch model */
 export type QueryGetVendorsArgs = {
@@ -312,7 +356,7 @@ export type RegisterInput = {
 export enum Role {
   Admin = 'Admin',
   Employee = 'Employee',
-  Manager = 'Manager'
+  Manager = 'Manager',
 }
 
 /** UpdateBranchInput */
@@ -320,6 +364,13 @@ export type UpdateBranchInput = {
   code?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateDepartmentInput = {
+  location?: InputMaybe<Scalars['String']['input']>;
+  managerId?: InputMaybe<Scalars['ID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateLeaveTypeInput = {
@@ -360,6 +411,12 @@ export type User = {
   vendorId?: Maybe<Scalars['ID']['output']>;
 };
 
+export type UserListResponse = {
+  __typename?: 'UserListResponse';
+  results: Array<User>;
+  totalCount: Scalars['Int']['output'];
+};
+
 export type Vendor = {
   __typename?: 'Vendor';
   contactEmail: Scalars['String']['output'];
@@ -383,48 +440,854 @@ export type GetBranchesQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-
-export type GetBranchesQuery = { __typename?: 'Query', getBranches: { __typename?: 'BranchListResponse', results: Array<{ __typename?: 'Branch', id: string, name: string, code: string }> } };
+export type GetBranchesQuery = {
+  __typename?: 'Query';
+  getBranches: {
+    __typename?: 'BranchListResponse';
+    results: Array<{ __typename?: 'Branch'; id: string; name: string; code: string }>;
+  };
+};
 
 export type GetVendorsQueryVariables = Exact<{
   offset?: InputMaybe<Scalars['Int']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-
-export type GetVendorsQuery = { __typename?: 'Query', getVendors: { __typename?: 'VendorListResponse', results: Array<{ __typename?: 'Vendor', id: string, name: string }> } };
+export type GetVendorsQuery = {
+  __typename?: 'Query';
+  getVendors: {
+    __typename?: 'VendorListResponse';
+    results: Array<{ __typename?: 'Vendor'; id: string; name: string }>;
+  };
+};
 
 export type RegisterUserMutationVariables = Exact<{
   input: RegisterInput;
 }>;
 
-
-export type RegisterUserMutation = { __typename?: 'Mutation', register: { __typename?: 'User', id: string, email: string } };
+export type RegisterUserMutation = {
+  __typename?: 'Mutation';
+  register: { __typename?: 'User'; id: string; email: string };
+};
 
 export type LoginUserMutationVariables = Exact<{
   input: LoginInput;
 }>;
 
+export type LoginUserMutation = {
+  __typename?: 'Mutation';
+  login: {
+    __typename?: 'AuthTokens';
+    accessToken: string;
+    refreshToken: string;
+    tokenType: string;
+    expiresIn: number;
+  };
+};
 
-export type LoginUserMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthTokens', accessToken: string, refreshToken: string, tokenType: string, expiresIn: number } };
+export type GetMeQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetMeQuery = {
+  __typename?: 'Query';
+  me?: {
+    __typename?: 'User';
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    userRole: Role;
+    designation: string;
+    branchId?: string | null;
+    vendorId?: string | null;
+  } | null;
+};
 
+export type GetAllBranchesAdminQueryVariables = Exact<{
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+}>;
 
-export type GetMeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, userRole: Role, designation: string, branchId?: string | null, vendorId?: string | null } | null };
+export type GetAllBranchesAdminQuery = {
+  __typename?: 'Query';
+  getBranches: {
+    __typename?: 'BranchListResponse';
+    results: Array<{
+      __typename?: 'Branch';
+      id: string;
+      name: string;
+      code: string;
+      location: string;
+      createdAt: any;
+      isDeleted: boolean;
+      updatedAt: any;
+    }>;
+  };
+};
+
+export type GetAppHealthQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAppHealthQuery = { __typename?: 'Query'; health: string };
+
+export type GetAllLeaveTypesQueryVariables = Exact<{
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type GetAllLeaveTypesQuery = {
+  __typename?: 'Query';
+  getLeaveTypes: {
+    __typename?: 'LeaveTypeListResponse';
+    results: Array<{
+      __typename?: 'LeaveType';
+      id: string;
+      code: string;
+      description: string;
+      createAt: any;
+      updatedAt: any;
+      isDeleted: boolean;
+    }>;
+  };
+};
+
+export type GetAllPublicHolidaysQueryVariables = Exact<{
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type GetAllPublicHolidaysQuery = {
+  __typename?: 'Query';
+  getPublicHolidays: {
+    __typename?: 'PublicHolidayListResponse';
+    results: Array<{
+      __typename?: 'PublicHoliday';
+      id: string;
+      holidayDate: any;
+      title: string;
+      createdAt: any;
+      updatedAt: any;
+      isDeleted: boolean;
+    }>;
+  };
+};
+
+export type GetAllUsersQueryVariables = Exact<{
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type GetAllUsersQuery = {
+  __typename?: 'Query';
+  getAllUsers: {
+    __typename?: 'UserListResponse';
+    results: Array<{
+      __typename?: 'User';
+      id: string;
+      firstName: string;
+      lastName: string;
+      email: string;
+      phoneNumber: string;
+      designation: string;
+      userRole: Role;
+      dateOfJoining: any;
+      dateOfBirth: any;
+      emergencyContactName: string;
+      emergencyContactNumber: string;
+      branchId?: string | null;
+      managerId?: string | null;
+      vendorId?: string | null;
+      createAt: any;
+      isDeleted: boolean;
+      updatedAt: any;
+    }>;
+  };
+};
+
+export type GetAllVendorsQueryVariables = Exact<{
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type GetAllVendorsQuery = {
+  __typename?: 'Query';
+  getVendors: {
+    __typename?: 'VendorListResponse';
+    results: Array<{
+      __typename?: 'Vendor';
+      id: string;
+      name: string;
+      contactName: string;
+      contactEmail: string;
+      contactNumber: string;
+      createdAt: any;
+      isDeleted: boolean;
+      updatedAt: any;
+    }>;
+  };
+};
 
 export type GetPublicHolidaysQueryVariables = Exact<{
   offset?: InputMaybe<Scalars['Int']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
+export type GetPublicHolidaysQuery = {
+  __typename?: 'Query';
+  getPublicHolidays: {
+    __typename?: 'PublicHolidayListResponse';
+    results: Array<{
+      __typename?: 'PublicHoliday';
+      id: string;
+      title: string;
+      holidayDate: any;
+      createdAt: any;
+      isDeleted: boolean;
+      updatedAt: any;
+    }>;
+  };
+};
 
-export type GetPublicHolidaysQuery = { __typename?: 'Query', getPublicHolidays: { __typename?: 'PublicHolidayListResponse', results: Array<{ __typename?: 'PublicHoliday', id: string, title: string, holidayDate: any, createdAt: any, isDeleted: boolean, updatedAt: any }> } };
-
-
-export const GetBranchesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBranches"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"offset"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getBranches"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"offset"},"value":{"kind":"Variable","name":{"kind":"Name","value":"offset"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"results"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}}]}}]} as unknown as DocumentNode<GetBranchesQuery, GetBranchesQueryVariables>;
-export const GetVendorsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetVendors"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"offset"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getVendors"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"offset"},"value":{"kind":"Variable","name":{"kind":"Name","value":"offset"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"results"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<GetVendorsQuery, GetVendorsQueryVariables>;
-export const RegisterUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RegisterUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RegisterInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"register"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<RegisterUserMutation, RegisterUserMutationVariables>;
-export const LoginUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LoginUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"refreshToken"}},{"kind":"Field","name":{"kind":"Name","value":"tokenType"}},{"kind":"Field","name":{"kind":"Name","value":"expiresIn"}}]}}]}}]} as unknown as DocumentNode<LoginUserMutation, LoginUserMutationVariables>;
-export const GetMeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"userRole"}},{"kind":"Field","name":{"kind":"Name","value":"designation"}},{"kind":"Field","name":{"kind":"Name","value":"branchId"}},{"kind":"Field","name":{"kind":"Name","value":"vendorId"}}]}}]}}]} as unknown as DocumentNode<GetMeQuery, GetMeQueryVariables>;
-export const GetPublicHolidaysDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPublicHolidays"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"offset"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getPublicHolidays"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"offset"},"value":{"kind":"Variable","name":{"kind":"Name","value":"offset"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"results"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"holidayDate"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isDeleted"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]}}]} as unknown as DocumentNode<GetPublicHolidaysQuery, GetPublicHolidaysQueryVariables>;
+export const GetBranchesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetBranches' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getBranches' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'offset' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'results' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetBranchesQuery, GetBranchesQueryVariables>;
+export const GetVendorsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetVendors' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getVendors' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'offset' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'results' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetVendorsQuery, GetVendorsQueryVariables>;
+export const RegisterUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'RegisterUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'RegisterInput' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'register' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<RegisterUserMutation, RegisterUserMutationVariables>;
+export const LoginUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'LoginUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'LoginInput' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'login' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'accessToken' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'refreshToken' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'tokenType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'expiresIn' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<LoginUserMutation, LoginUserMutationVariables>;
+export const GetMeDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetMe' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'me' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'userRole' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'designation' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'branchId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'vendorId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetMeQuery, GetMeQueryVariables>;
+export const GetAllBranchesAdminDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAllBranchesAdmin' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getBranches' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'offset' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'results' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'location' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'isDeleted' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllBranchesAdminQuery, GetAllBranchesAdminQueryVariables>;
+export const GetAppHealthDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAppHealth' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'health' } }],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAppHealthQuery, GetAppHealthQueryVariables>;
+export const GetAllLeaveTypesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAllLeaveTypes' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getLeaveTypes' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'offset' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'results' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'isDeleted' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllLeaveTypesQuery, GetAllLeaveTypesQueryVariables>;
+export const GetAllPublicHolidaysDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAllPublicHolidays' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getPublicHolidays' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'offset' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'results' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'holidayDate' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'isDeleted' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllPublicHolidaysQuery, GetAllPublicHolidaysQueryVariables>;
+export const GetAllUsersDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAllUsers' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getAllUsers' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'offset' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'results' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'designation' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'userRole' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'dateOfJoining' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'emergencyContactName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'emergencyContactNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'branchId' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'managerId' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'vendorId' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'isDeleted' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllUsersQuery, GetAllUsersQueryVariables>;
+export const GetAllVendorsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAllVendors' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getVendors' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'offset' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'results' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'contactName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'contactEmail' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'contactNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'isDeleted' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllVendorsQuery, GetAllVendorsQueryVariables>;
+export const GetPublicHolidaysDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetPublicHolidays' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getPublicHolidays' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'offset' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'results' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'holidayDate' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'isDeleted' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetPublicHolidaysQuery, GetPublicHolidaysQueryVariables>;

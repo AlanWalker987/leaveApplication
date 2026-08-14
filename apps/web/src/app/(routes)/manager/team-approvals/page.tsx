@@ -1,7 +1,7 @@
 export default function ManagerTeamApprovalsPage() {
   return (
     <>
-      <div className="rounded-2xl bg-gradient-to-r from-[#1e40af] to-[#2563eb] p-6 text-white shadow-sm">
+      <div className="rounded-2xl bg-gradient-to-r bg-[#101010] p-6 text-white shadow-sm">
         <p className="text-sm text-blue-100">Manager Workspace</p>
         <h1 className="mt-1 text-3xl font-semibold">Team Approvals</h1>
         <p className="mt-1 text-sm text-blue-100">

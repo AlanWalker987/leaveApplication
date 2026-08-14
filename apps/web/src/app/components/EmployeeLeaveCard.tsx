@@ -17,8 +17,8 @@ export default function EmployeeLeaveCard({
   iconClassName = 'bg-slate-100 text-slate-700',
 }: EmployeeLeaveCardProps) {
   return (
-    <Card className="rounded-2xl border border-slate-200 shadow-none">
-      <CardContent className="p-4">
+    <Card className="h-full rounded-2xl border border-slate-200 shadow-none">
+      <CardContent className="h-full p-4">
         <div
           className={[
             'inline-flex h-10 w-10 items-center justify-center rounded-xl',

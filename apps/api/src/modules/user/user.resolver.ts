@@ -70,4 +70,18 @@ export class UserResolver {
   async me(@CurrentUser() user: AuthenticatedUser): Promise<GraphqlTypes.User | null> {
     return await this.userService.me(user.sub);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Query('getAllUsers')
+  async getAllUsers(
+    @Args('offset') offset?: number,
+    @Args('limit') limit?: number,
+  ): Promise<GraphqlTypes.UserListResponse> {
+    const pagination = {
+      offset: Number(offset ?? 0),
+      limit: Number(limit ?? 20),
+    };
+
+    return await this.userService.getAllUsers(pagination);
+  }
 }

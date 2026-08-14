@@ -87,9 +87,9 @@ export default function PublicHolidayCard({ holidays }: PublicHolidayCardProps) 
 
       <div
         ref={scrollContainerRef}
-        className="mt-4 -mx-1 w-full overflow-x-hidden overflow-y-hidden px-1"
+        className="mt-4 w-full overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        <div className="flex min-w-max flex-nowrap gap-3 pb-2">
+        <div className="flex min-w-max flex-nowrap gap-3 px-1 pb-2 sm:px-2">
           {holidays.length > 0 ? (
             holidays.map((holiday) => (
               <PublicHolidayCardDetails key={holiday.id} holiday={holiday} />
