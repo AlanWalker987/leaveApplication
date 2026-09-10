@@ -4,6 +4,8 @@ type Department {
   subtitle: String!
   location: String!
   managerId: ID!
+  manager: User!
+  employees: [User!]!
   createdAt: DateTime!
   updatedAt: DateTime!
   isDeleted: Boolean!
@@ -14,6 +16,7 @@ input CreateDepartmentInput {
   subtitle: String!
   location: String!
   managerId: ID!
+  employeeIds: [ID!]
 }
 
 input UpdateDepartmentInput {
@@ -21,6 +24,7 @@ input UpdateDepartmentInput {
   subtitle: String
   location: String
   managerId: ID
+  employeeIds: [ID!]
 }
 
 type DepartmentListResponse {

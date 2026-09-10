@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../database/prisma/prisma.service';
 import * as GraphqlTypes from '../../graphql-types';
 
@@ -6,18 +7,53 @@ import * as GraphqlTypes from '../../graphql-types';
 export class PublicHolidayService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getAllPublicHolidays(pagination: {
-    offset: number;
-    limit: number;
-  }): Promise<GraphqlTypes.PublicHolidayListResponse> {
+  async getAllPublicHolidays(
+    pagination: {
+      offset: number;
+      limit: number;
+    },
+    search?: string,
+    sortBy?: string,
+    sortOrder?: string,
+  ): Promise<GraphqlTypes.PublicHolidayListResponse> {
     const { offset, limit } = pagination;
-    const publicHolidays = await this.prismaService.publicHolidays.findMany({
-      skip: offset,
-      take: limit,
-      orderBy: { holidayDate: 'asc' },
-    });
+    const normalizedSearch = search?.trim();
+    const where = {
+      isDeleted: false,
+      ...(normalizedSearch
+        ? { title: { contains: normalizedSearch, mode: 'insensitive' as const } }
+        : {}),
+    };
 
-    return { results: publicHolidays, totalCount: publicHolidays.length };
+    const [publicHolidays, totalCount] = await this.prismaService.$transaction([
+      this.prismaService.publicHolidays.findMany({
+        where,
+        skip: offset,
+        take: limit,
+        orderBy: this.getPublicHolidayOrderBy(sortBy, sortOrder),
+      }),
+      this.prismaService.publicHolidays.count({ where }),
+    ]);
+
+    return { results: publicHolidays, totalCount };
+  }
+
+  private getPublicHolidayOrderBy(
+    sortBy?: string,
+    sortOrder?: string,
+  ): Prisma.PublicHolidaysOrderByWithRelationInput[] {
+    const order: Prisma.SortOrder = sortOrder === 'desc' ? 'desc' : 'asc';
+
+    switch (sortBy) {
+      case 'title':
+        return [{ title: order }, { holidayDate: 'asc' }];
+      case 'holidayDate':
+        return [{ holidayDate: order }, { title: 'asc' }];
+      case 'createdAt':
+        return [{ createdAt: order }, { holidayDate: 'asc' }];
+      default:
+        return [{ holidayDate: 'asc' }, { createdAt: 'desc' }];
+    }
   }
 
   async getPublicHolidayById(id: string): Promise<GraphqlTypes.PublicHoliday | null> {
@@ -26,7 +62,7 @@ export class PublicHolidayService {
     });
 
     if (!publicHoliday) {
-      return null;
+      throw new NotFoundException('Public holiday not found');
     }
 
     return publicHoliday;

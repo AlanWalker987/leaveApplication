@@ -43,8 +43,8 @@ const ToggleGroupItem = React.forwardRef<
           variant: context.variant || variant,
           size: context.size || size,
         }),
-        'border border-slate-300 bg-white text-black font-medium transition-all duration-200 hover:border-black hover:bg-black hover:text-white',
-        'data-[state=on]:border-black data-[state=on]:!bg-black data-[state=on]:!text-white',
+        'border border-[var(--app-border)] bg-[var(--app-surface)] text-[var(--app-text)] font-medium transition-all duration-200 hover:border-[var(--app-black)] hover:bg-[var(--app-black)] hover:text-[var(--app-white)]',
+        'data-[state=on]:border-[var(--app-black)] data-[state=on]:!bg-[var(--app-black)] data-[state=on]:!text-[var(--app-white)]',
         className,
       )}
       {...props}

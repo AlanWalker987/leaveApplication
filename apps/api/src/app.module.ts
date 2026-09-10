@@ -12,6 +12,7 @@ import { LeaveTypeModule } from './modules/leave-type/leave-type.module';
 import { PublicHolidayModule } from './modules/public-holiday/public-holiday.module';
 import { VendorModule } from './modules/vendor/vendor.module';
 import { DepartmentModule } from './modules/department/department.module';
+import { LeaveModule } from './modules/leave/leave.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { DepartmentModule } from './modules/department/department.module';
     PublicHolidayModule,
     VendorModule,
     DepartmentModule,
+    LeaveModule,
   ],
   providers: [AppResolver],
 })

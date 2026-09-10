@@ -1,14 +1,16 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { ParseUUIDPipe } from '@nestjs/common';
+import { ParseUUIDPipe, UseGuards } from '@nestjs/common';
 import * as GraphqlTypes from '../../graphql-types';
 import { CreateDepartmentInput } from './dto/create-department.input';
 import { UpdateDepartmentInput } from './dto/update-department.input';
 import { DepartmentService } from './department.service';
+import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 
 @Resolver()
 export class DepartmentResolver {
   constructor(private readonly departmentService: DepartmentService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Query('getDepartments')
   async getDepartments(
     @Args('offset') offset?: number,
@@ -22,6 +24,7 @@ export class DepartmentResolver {
     return this.departmentService.getAllDepartments(pagination);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Query('getDepartmentById')
   async getDepartmentById(
     @Args('id', ParseUUIDPipe) id: string,
@@ -29,6 +32,7 @@ export class DepartmentResolver {
     return this.departmentService.getDepartmentById(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Mutation('createDepartment')
   async createDepartment(
     @Args('input') input: CreateDepartmentInput,
@@ -36,6 +40,7 @@ export class DepartmentResolver {
     return this.departmentService.createDepartment(input as GraphqlTypes.CreateDepartmentInput);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Mutation('updateDepartmentById')
   async updateDepartmentById(
     @Args('id', ParseUUIDPipe) id: string,
@@ -47,6 +52,7 @@ export class DepartmentResolver {
     );
   }
 
+  @UseGuards(JwtAuthGuard)
   @Mutation('deleteDepartmentById')
   async deleteDepartmentById(
     @Args('id', ParseUUIDPipe) id: string,

@@ -23,7 +23,13 @@ type LeaveTypeListResponse {
 }
 
 extend type Query {
-  getLeaveTypes(offset: Int, limit: Int): LeaveTypeListResponse!
+  getLeaveTypes(
+    offset: Int
+    limit: Int
+    search: String
+    sortBy: String
+    sortOrder: String
+  ): LeaveTypeListResponse!
   getLeaveTypeById(id: ID!): LeaveType
 }
 

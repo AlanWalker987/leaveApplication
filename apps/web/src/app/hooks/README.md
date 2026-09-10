@@ -1,3 +1,0 @@
-# Hooks
-
-Placeholder directory for custom React hooks.

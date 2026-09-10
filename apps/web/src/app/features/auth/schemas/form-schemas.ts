@@ -24,6 +24,9 @@ export const registerSchema = z
     dateOfJoining: z.string().min(1, 'Date of joining is required.'),
     emergencyContactName: z.string().min(1, 'Emergency contact name is required.'),
     emergencyContactNumber: z.string().regex(/^\d{10}$/, 'Enter a valid 10-digit mobile number.'),
+    gender: z.enum(['Male', 'Female'], {
+      message: 'Gender is required.',
+    }),
   })
   .refine((data) => data.confirmPassword === data.password, {
     path: ['confirmPassword'],

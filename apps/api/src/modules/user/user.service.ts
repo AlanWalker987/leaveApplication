@@ -2,12 +2,14 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { randomUUID } from 'crypto';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../database/prisma/prisma.service';
 import * as GraphqlTypes from '../../graphql-types';
 
@@ -37,6 +39,7 @@ type UserRecord = {
   dateOfJoining: Date;
   emergencyContactName: string;
   emergencyContactNumber: string;
+  gender: string | null;
   createAt: Date;
   updatedAt: Date;
   isDeleted: boolean;
@@ -113,31 +116,199 @@ export class UserService {
         dateOfJoining: input.dateOfJoining,
         emergencyContactName: input.emergencyContactName.trim(),
         emergencyContactNumber: input.emergencyContactNumber.trim(),
+        gender: input.gender as unknown as GraphqlTypes.Gender | undefined,
       },
     });
 
     return this.toGraphqlUser(createdUser);
   }
 
-  async getAllUsers(pagination: {
-    offset: number;
-    limit: number;
-  }): Promise<GraphqlTypes.UserListResponse> {
+  async getAllUsers(
+    pagination: {
+      offset: number;
+      limit: number;
+    },
+    search?: string,
+    sortBy?: string,
+    sortOrder?: string,
+  ): Promise<GraphqlTypes.UserListResponse> {
     const { offset, limit } = pagination;
-    const users = await this.prismaService.user.findMany({
-      where: { isDeleted: false },
-      skip: offset,
-      take: limit,
-    });
+    const normalizedSearch = search?.trim();
+    const where = {
+      isDeleted: false,
+      ...(normalizedSearch
+        ? {
+            OR: [
+              { firstName: { contains: normalizedSearch, mode: 'insensitive' as const } },
+              { lastName: { contains: normalizedSearch, mode: 'insensitive' as const } },
+            ],
+          }
+        : {}),
+    };
 
-    const totalCount = await this.prismaService.user.count({
-      where: { isDeleted: false },
-    });
+    const [users, totalCount] = await this.prismaService.$transaction([
+      this.prismaService.user.findMany({
+        where,
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          managerId: true,
+          branchId: true,
+          vendorId: true,
+          userRole: true,
+          phoneNumber: true,
+          designation: true,
+          dateOfBirth: true,
+          dateOfJoining: true,
+          emergencyContactName: true,
+          emergencyContactNumber: true,
+          gender: true,
+          createAt: true,
+          updatedAt: true,
+          isDeleted: true,
+        },
+        orderBy: this.getUserOrderBy(sortBy, sortOrder),
+        skip: offset,
+        take: limit,
+      }),
+      this.prismaService.user.count({
+        where,
+      }),
+    ]);
 
     return {
       results: users.map((user) => this.toGraphqlUser(user)),
       totalCount,
     };
+  }
+
+  private getUserOrderBy(
+    sortBy?: string,
+    sortOrder?: string,
+  ): Prisma.UserOrderByWithRelationInput[] {
+    const order: Prisma.SortOrder = sortOrder === 'desc' ? 'desc' : 'asc';
+
+    switch (sortBy) {
+      case 'email':
+        return [{ email: order }, { createAt: 'desc' }];
+      case 'designation':
+        return [{ designation: order }, { firstName: 'asc' }, { lastName: 'asc' }];
+      case 'userRole':
+        return [{ userRole: order }, { firstName: 'asc' }, { lastName: 'asc' }];
+      case 'dateOfJoining':
+        return [{ dateOfJoining: order }, { firstName: 'asc' }, { lastName: 'asc' }];
+      case 'firstName':
+        return [{ firstName: order }, { lastName: 'asc' }, { createAt: 'desc' }];
+      case 'lastName':
+        return [{ lastName: order }, { firstName: 'asc' }, { createAt: 'desc' }];
+      default:
+        return [{ firstName: 'asc' }, { lastName: 'asc' }, { createAt: 'desc' }];
+    }
+  }
+
+  async updateUserById(
+    id: string,
+    input: {
+      firstName?: string | null;
+      lastName?: string | null;
+      email?: string | null;
+      managerId?: string | null;
+      branchId?: string | null;
+      vendorId?: string | null;
+      userRole?: GraphqlTypes.Role | null;
+      phoneNumber?: string | null;
+      designation?: string | null;
+      dateOfBirth?: Date | null;
+      dateOfJoining?: Date | null;
+      emergencyContactName?: string | null;
+      emergencyContactNumber?: string | null;
+      gender?: GraphqlTypes.Gender | null;
+    },
+  ): Promise<GraphqlTypes.User> {
+    const user = await this.prismaService.user.findUnique({ where: { id } });
+    if (!user || user.isDeleted) {
+      throw new NotFoundException('User not found');
+    }
+
+    const nextEmail =
+      input.email !== undefined ? this.normalizeEmail(input.email ?? '') : user.email;
+    if (nextEmail !== user.email) {
+      const existingUser = await this.prismaService.user.findUnique({
+        where: { email: nextEmail },
+      });
+      if (existingUser && existingUser.id !== user.id) {
+        throw new ConflictException('User with this email already exists');
+      }
+    }
+
+    const nextBranchId = input.branchId?.trim() || null;
+    const nextVendorId = input.vendorId?.trim() || null;
+    const nextManagerId = input.managerId?.trim() || null;
+    const nextRole = (input.userRole ?? user.userRole) as GraphqlTypes.Role;
+
+    if (nextBranchId) {
+      const branch = await this.prismaService.branch.findUnique({ where: { id: nextBranchId } });
+      if (!branch || branch.isDeleted) {
+        throw new BadRequestException('Invalid branchId');
+      }
+    }
+
+    if (nextVendorId) {
+      const vendor = await this.prismaService.vendor.findUnique({ where: { id: nextVendorId } });
+      if (!vendor || vendor.isDeleted) {
+        throw new BadRequestException('Invalid vendorId');
+      }
+    }
+
+    if (nextManagerId) {
+      const manager = await this.prismaService.user.findUnique({ where: { id: nextManagerId } });
+      if (!manager || manager.isDeleted || manager.userRole !== 'Manager') {
+        throw new BadRequestException('Invalid managerId');
+      }
+    }
+
+    const updatedUser = await this.prismaService.user.update({
+      where: { id },
+      data: {
+        firstName: input.firstName?.trim() || user.firstName,
+        lastName: input.lastName?.trim() || user.lastName,
+        email: nextEmail,
+        managerId: nextRole === GraphqlTypes.Role.Manager ? null : nextManagerId,
+        branchId: nextBranchId,
+        vendorId: nextRole === GraphqlTypes.Role.Manager ? null : nextVendorId,
+        userRole: nextRole as unknown as GraphqlTypes.Role,
+        phoneNumber: input.phoneNumber?.trim() || user.phoneNumber,
+        designation: input.designation?.trim() || user.designation,
+        dateOfBirth: input.dateOfBirth ?? user.dateOfBirth,
+        dateOfJoining: input.dateOfJoining ?? user.dateOfJoining,
+        emergencyContactName: input.emergencyContactName?.trim() || user.emergencyContactName,
+        emergencyContactNumber: input.emergencyContactNumber?.trim() || user.emergencyContactNumber,
+        gender: (input.gender ?? null) as GraphqlTypes.Gender | null,
+      },
+    });
+
+    return this.toGraphqlUser(updatedUser);
+  }
+
+  async deleteUserById(id: string): Promise<GraphqlTypes.User> {
+    const user = await this.prismaService.user.findUnique({ where: { id } });
+
+    if (!user || user.isDeleted) {
+      throw new NotFoundException('User not found');
+    }
+
+    const deletedUser = await this.prismaService.user.update({
+      where: { id },
+      data: {
+        isDeleted: true,
+      },
+    });
+
+    await this.revokeAllSessionsAndBumpTokenVersion(id);
+
+    return this.toGraphqlUser(deletedUser);
   }
 
   async login(input: GraphqlTypes.LoginInput): Promise<GraphqlTypes.AuthTokens> {
@@ -215,7 +386,7 @@ export class UserService {
     });
 
     if (!user || user.isDeleted) {
-      return null;
+      throw new NotFoundException('User not found');
     }
 
     return this.toGraphqlUser(user);
@@ -389,6 +560,7 @@ export class UserService {
       dateOfJoining: user.dateOfJoining,
       emergencyContactName: user.emergencyContactName,
       emergencyContactNumber: user.emergencyContactNumber,
+      gender: user.gender as GraphqlTypes.Gender | null,
       createAt: user.createAt,
       updatedAt: user.updatedAt,
       isDeleted: user.isDeleted,

@@ -4,6 +4,11 @@ enum Role {
   Employee
 }
 
+enum Gender {
+  Male
+  Female
+}
+
 type User {
   id: ID!
   firstName: String!
@@ -19,6 +24,7 @@ type User {
   dateOfJoining: DateTime!
   emergencyContactName: String!
   emergencyContactNumber: String!
+  gender: Gender
   createAt: DateTime!
   updatedAt: DateTime!
   isDeleted: Boolean!
@@ -46,6 +52,24 @@ input RegisterInput {
   dateOfJoining: DateTime!
   emergencyContactName: String!
   emergencyContactNumber: String!
+  gender: Gender
+}
+
+input UpdateUserInput {
+  firstName: String
+  lastName: String
+  email: String
+  managerId: ID
+  branchId: ID
+  vendorId: ID
+  userRole: Role
+  phoneNumber: String
+  designation: String
+  dateOfBirth: DateTime
+  dateOfJoining: DateTime
+  emergencyContactName: String
+  emergencyContactNumber: String
+  gender: Gender
 }
 
 input LoginInput {
@@ -64,11 +88,19 @@ type UserListResponse {
 
 extend type Query {
   me: User
-  getAllUsers(offset: Int, limit: Int): UserListResponse!
+  getAllUsers(
+    offset: Int
+    limit: Int
+    search: String
+    sortBy: String
+    sortOrder: String
+  ): UserListResponse!
 }
 
 extend type Mutation {
   register(input: RegisterInput!): User!
+  updateUserById(id: ID!, input: UpdateUserInput!): User!
+  deleteUserById(id: ID!): User!
   login(input: LoginInput!): AuthTokens!
   refreshToken(input: RefreshTokenInput!): AuthTokens!
   logoutAllTabs: Boolean!

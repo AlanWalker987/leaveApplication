@@ -1,6 +1,7 @@
 'use client';
 
 import { Progress, ProgressLabel, ProgressValue } from '@/components/ui/progress';
+import { getCurrentYear } from '@/lib/datetimeutile';
 
 export type LeaveBalancecardByTypeProps = {
   leave: {
@@ -11,34 +12,67 @@ export type LeaveBalancecardByTypeProps = {
   };
 };
 
-export default function LeaveBalanceSummaryCard() {
-  const currentYear = new Date().getFullYear();
+type LeaveBalanceSummaryCardProps = {
+  earnedLeave: {
+    available: number;
+    total: number;
+  };
+  additionalLeave?: {
+    available: number;
+    total: number;
+  } | null;
+  loading?: boolean;
+};
+
+export default function LeaveBalanceSummaryCard({
+  earnedLeave,
+  additionalLeave,
+  loading = false,
+}: LeaveBalanceSummaryCardProps) {
+  const currentYear = getCurrentYear();
 
   const leaveBalances = [
-    { type: 'Annual Leave', available: 11, total: 20, progressColor: 'bg-blue-600' },
-    { type: 'Earn Leave', available: 5, total: 10, progressColor: 'bg-emerald-600' },
-    { type: 'Additional Leave', available: 2, total: 5, progressColor: 'bg-amber-500' },
+    {
+      type: 'Earned Leave',
+      available: earnedLeave.available,
+      total: earnedLeave.total,
+      progressColor: 'bg-[var(--app-success)]',
+    },
+    ...(additionalLeave
+      ? [
+          {
+            type: 'Additional Leave',
+            available: additionalLeave.available,
+            total: additionalLeave.total,
+            progressColor: 'bg-[var(--app-warning)]',
+          },
+        ]
+      : []),
   ];
 
   return (
-    <div className="h-full rounded-2xl border border-slate-200 bg-white p-4">
+    <div className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface)] p-4">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-slate-900">Leave Balance</p>
-        <p className="text-sm text-slate-900">{currentYear}</p>
+        <p className="text-lg font-semibold text-[var(--app-text)]">Leave Balance</p>
+        <p className="text-sm font-medium text-[var(--app-text-muted)]">{currentYear}</p>
       </div>
 
-      {leaveBalances.map((leave) => (
-        <LeaveBalanaceCardByType key={leave.type} leave={leave} />
-      ))}
+      {loading ? <p className="mt-2 text-sm text-[var(--app-text-muted)]">Calculating balances...</p> : null}
+
+      <div className="mt-3 space-y-3">
+        {leaveBalances.map((leave) => (
+          <LeaveBalanaceCardByType key={leave.type} leave={leave} />
+        ))}
+      </div>
     </div>
   );
 }
 
 function LeaveBalanaceCardByType({ leave }: LeaveBalancecardByTypeProps) {
   return (
-    <div key={leave.type} className="mt-4 rounded-xl border border-slate-100 bg-slate-50 p-4">
-      {/* <p className="text-sm font-medium text-slate-800">{leave.type}</p>
-      <p className="mt-1 text-sm text-slate-500">{leave.available} days available</p> */}
+    <div key={leave.type} className="rounded-xl border border-[var(--app-border)] bg-[var(--app-surface-2)] p-3.5">
+      {/* <p className="text-sm font-medium text-[var(--app-text)]">{leave.type}</p>
+      <p className="mt-1 text-sm text-[var(--app-text-muted)]">{leave.available} days available</p> */}
       <Progress
         value={leave.available}
         max={leave.total}
