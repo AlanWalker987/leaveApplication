@@ -3,22 +3,45 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { type ReactNode, useEffect, useState } from 'react';
+import { CalendarCheck2, ClipboardList, History, LayoutDashboard } from 'lucide-react';
 import {
   clearAuthSession,
   getRoleHomePath,
   getUserRoleFromSession,
-  hasAccessToken,
 } from '../../features/auth/utils/session';
 import { useCurrentUser } from '../../hooks';
+import { cn } from '@/lib/utils';
+import { AppShellHeader } from '@/app/components/layout/app-shell-header';
+import { Loader } from '@/components/loader/Loader';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar';
+import {
+  LoadingStateView,
+  RedirectingStateView,
+  RoleResolutionErrorView,
+  SessionNotFoundView,
+} from '@/app/components/auth/auth-status-views';
+import { ConfirmActionDialog } from '@/components/dialogs/confirm-action-dialog';
 
 type EmployeeLayoutProps = {
   children: ReactNode;
 };
 
 const menuItems = [
-  { path: '/employee', label: 'Dashboard' },
-  { path: '/employee/apply-leave', label: 'Apply Leave' },
-  { path: '/employee/leave-history', label: 'Leave History' },
+  { path: '/employee', label: 'Dashboard', icon: LayoutDashboard },
+  { path: '/employee/apply-leave', label: 'Apply Leave', icon: CalendarCheck2 },
+  { path: '/employee/leave-status', label: 'Leave Status', icon: ClipboardList },
+  { path: '/employee/leave-history', label: 'Leave History', icon: History },
 ] as const;
 
 export default function EmployeeLayout({ children }: EmployeeLayoutProps) {
@@ -26,6 +49,9 @@ export default function EmployeeLayout({ children }: EmployeeLayoutProps) {
   const pathname = usePathname();
   const [isAuthResolved, setIsAuthResolved] = useState(false);
   const [currentRole, setCurrentRole] = useState<'Admin' | 'Manager' | 'Employee' | null>(null);
+  const [isLogoutConfirmOpen, setIsLogoutConfirmOpen] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
+  const [pendingMenuPath, setPendingMenuPath] = useState<string | null>(null);
   const { user, isAuthenticated } = useCurrentUser();
 
   useEffect(() => {
@@ -43,102 +69,123 @@ export default function EmployeeLayout({ children }: EmployeeLayoutProps) {
     }
   }, [currentRole, isAuthResolved, isAuthenticated, router]);
 
+  useEffect(() => {
+    setIsNavigating(false);
+    setPendingMenuPath(null);
+  }, [pathname]);
+
   function onLogout() {
     clearAuthSession();
     router.push('/login');
   }
 
+  function isMenuItemActive(path: string) {
+    if (pendingMenuPath) {
+      return pendingMenuPath === path;
+    }
+
+    return pathname === path;
+  }
+
+  function onMenuItemClick(path: string) {
+    if (pathname !== path) {
+      setPendingMenuPath(path);
+      setIsNavigating(true);
+    }
+  }
+
+  function onRequestLogout() {
+    setIsLogoutConfirmOpen(true);
+  }
+
   if (!isAuthResolved) {
-    return <main className="p-6">Loading...</main>;
+    return <LoadingStateView />;
   }
 
   if (!isAuthenticated) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-100 px-4">
-        <section className="w-full max-w-lg rounded-2xl bg-white p-8 text-center shadow-md">
-          <h1 className="text-2xl font-bold text-slate-900">Session Not Found</h1>
-          <p className="mt-2 text-sm text-slate-600">Please login first to continue.</p>
-          <Link
-            className="mt-5 inline-block rounded-md bg-slate-900 px-4 py-2 font-semibold text-white"
-            href="/login"
-          >
-            Go to Login
-          </Link>
-        </section>
-      </main>
-    );
+    return <SessionNotFoundView />;
   }
 
   if (!currentRole) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-100 px-4">
-        <section className="w-full max-w-xl rounded-2xl bg-white p-8 shadow-md">
-          <h1 className="text-xl font-bold text-slate-900">Unable to resolve user role</h1>
-          <p className="mt-2 text-sm text-slate-600">Please login again to continue.</p>
-          <button
-            className="mt-5 rounded-md bg-slate-900 px-4 py-2 font-semibold text-white"
-            onClick={onLogout}
-            type="button"
-          >
-            Logout
-          </button>
-        </section>
-      </main>
-    );
+    return <RoleResolutionErrorView onLogout={onLogout} />;
   }
 
   if (currentRole !== 'Employee') {
-    return <main className="p-6">Redirecting...</main>;
+    return <RedirectingStateView />;
   }
 
   return (
-    <main className="h-screen overflow-hidden bg-[#f8f8f8] text-[#1b1b1b]">
-      <header className="flex h-14 items-center justify-between border-b border-[#e6e6e6] bg-white px-4 md:px-6">
-        <div className="flex items-center gap-3">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-[#101010] text-sm font-bold text-white">
-            L
-          </span>
-          <p className="text-[15px] font-semibold text-[#1b1b1b]">Leave Management System</p>
-        </div>
+    <SidebarProvider defaultOpen>
+      <main className="flex h-screen w-full min-w-0 flex-1 flex-col overflow-hidden bg-[var(--app-surface)] text-[var(--app-text)]">
+        <AppShellHeader
+          roleLabel="Employee"
+          userName={`${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || null}
+          onLogout={onRequestLogout}
+          showSidebarToggle
+          sidebarTrigger={
+            <SidebarTrigger className="h-8 w-8 rounded-md text-[var(--app-text)] transition hover:bg-[var(--app-surface-2)] hover:text-[var(--app-text)]" />
+          }
+        />
 
-        <div className="flex items-center gap-3">
-          <span className="rounded-full bg-[#f8f8f8] px-3 py-1 text-xs font-medium text-[#575757]">
-            {user?.firstName} {user?.lastName}
-          </span>
-          <button
-            type="button"
-            className="rounded-md border border-[#e6e6e6] bg-white px-3 py-1.5 text-xs font-semibold text-[#575757] hover:bg-[#f8f8f8]"
-            onClick={onLogout}
+        <div className="flex min-h-0 flex-1 overflow-hidden">
+          <Sidebar
+            collapsible="icon"
+            className="top-14 h-[calc(100svh-56px)] border-r border-[var(--app-border)] bg-[var(--app-white)]"
           >
-            Logout
-          </button>
+            <SidebarContent className="p-3">
+              <SidebarGroup className="p-0">
+                <SidebarGroupContent>
+                  <SidebarMenu className="space-y-1.5">
+                    {menuItems.map((item) => {
+                      const active = isMenuItemActive(item.path);
+                      const Icon = item.icon;
+                      return (
+                        <SidebarMenuItem key={item.path}>
+                          <SidebarMenuButton
+                            asChild
+                            isActive={active}
+                            tooltip={item.label}
+                            className={cn(
+                              'h-auto rounded-lg px-3 py-2.5 text-sm text-[var(--app-black)] transition',
+                              'group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:gap-0 group-data-[collapsible=icon]:[&>span]:hidden',
+                              'data-[active=true]:bg-[var(--app-black)] data-[active=true]:font-semibold data-[active=true]:text-[var(--app-white)]',
+                              'hover:bg-[var(--app-black)] hover:text-[var(--app-white)] active:bg-[var(--app-black)] active:text-[var(--app-white)]',
+                            )}
+                          >
+                            <Link href={item.path} onClick={() => onMenuItemClick(item.path)}>
+                              <Icon className="h-4 w-4 shrink-0" />
+                              <span>{item.label}</span>
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      );
+                    })}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </SidebarGroup>
+            </SidebarContent>
+          </Sidebar>
+
+          <SidebarInset className="relative min-w-0 overflow-y-auto bg-[var(--app-surface)] p-4 md:p-5">
+            {children}
+            {isNavigating ? (
+              <div className="absolute inset-0 z-30 flex items-center justify-center bg-[var(--app-surface)]">
+                <Loader />
+              </div>
+            ) : null}
+          </SidebarInset>
         </div>
-      </header>
 
-      <section className="grid h-[calc(100vh-56px)] grid-cols-1 overflow-hidden md:grid-cols-[240px_1fr]">
-        <aside className="overflow-y-auto border-r border-[#e6e6e6] bg-[#ffffff] p-3 text-[#101010]">
-          <nav className="space-y-1.5">
-            {menuItems.map((item) => {
-              const active = pathname === item.path;
-              return (
-                <Link
-                  key={item.path}
-                  href={item.path}
-                  className={`block rounded-lg px-3 py-2.5 text-sm transition ${
-                    active
-                      ? 'bg-[#101010] font-semibold text-[#ffffff]'
-                      : 'text-[#101010] hover:bg-[#101010] hover:text-[#ffffff] active:bg-[#101010] active:text-[#ffffff]'
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
-          </nav>
-        </aside>
-
-        <section className="min-w-0 overflow-y-auto p-4 md:p-5">{children}</section>
-      </section>
-    </main>
+        <ConfirmActionDialog
+          open={isLogoutConfirmOpen}
+          onOpenChange={setIsLogoutConfirmOpen}
+          title="Logout"
+          description="Are you sure you want to logout?"
+          onConfirm={onLogout}
+          confirmLabel="Logout"
+          variant="danger"
+        />
+      </main>
+    </SidebarProvider>
   );
 }

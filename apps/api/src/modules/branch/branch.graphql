@@ -44,7 +44,14 @@ Define the queries that can be made to the Branch model
 """
 type Query {
   health: String!
-  getBranches(offset: Int, limit: Int, userId: String): BranchListResponse!
+  getBranches(
+    offset: Int
+    limit: Int
+    userId: String
+    search: String
+    sortBy: String
+    sortOrder: String
+  ): BranchListResponse!
   getBranchById(id: ID!): Branch
 }
 

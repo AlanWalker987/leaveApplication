@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../database/prisma/prisma.service';
 import * as GraphqlTypes from '../../graphql-types';
 
@@ -6,17 +7,53 @@ import * as GraphqlTypes from '../../graphql-types';
 export class VendorService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getAllVendors(pagination: {
-    offset: number;
-    limit: number;
-  }): Promise<GraphqlTypes.VendorListResponse> {
+  async getAllVendors(
+    pagination: {
+      offset: number;
+      limit: number;
+    },
+    search?: string,
+    sortBy?: string,
+    sortOrder?: string,
+  ): Promise<GraphqlTypes.VendorListResponse> {
     const { offset, limit } = pagination;
-    const vendors = await this.prismaService.vendor.findMany({
-      skip: offset,
-      take: limit,
-    });
+    const normalizedSearch = search?.trim();
+    const where = {
+      isDeleted: false,
+      ...(normalizedSearch
+        ? { name: { contains: normalizedSearch, mode: 'insensitive' as const } }
+        : {}),
+    };
 
-    return { results: vendors, totalCount: vendors.length };
+    const [vendors, totalCount] = await this.prismaService.$transaction([
+      this.prismaService.vendor.findMany({
+        where,
+        orderBy: this.getVendorOrderBy(sortBy, sortOrder),
+        skip: offset,
+        take: limit,
+      }),
+      this.prismaService.vendor.count({ where }),
+    ]);
+
+    return { results: vendors, totalCount };
+  }
+
+  private getVendorOrderBy(
+    sortBy?: string,
+    sortOrder?: string,
+  ): Prisma.VendorOrderByWithRelationInput[] {
+    const order: Prisma.SortOrder = sortOrder === 'desc' ? 'desc' : 'asc';
+
+    switch (sortBy) {
+      case 'name':
+        return [{ name: order }, { createdAt: 'desc' }];
+      case 'contactName':
+        return [{ contactName: order }, { name: 'asc' }];
+      case 'createdAt':
+        return [{ createdAt: order }, { name: 'asc' }];
+      default:
+        return [{ name: 'asc' }, { createdAt: 'desc' }];
+    }
   }
 
   async getVendorById(id: string): Promise<GraphqlTypes.Vendor | null> {
@@ -25,7 +62,7 @@ export class VendorService {
     });
 
     if (!vendor) {
-      return null;
+      throw new NotFoundException('Vendor not found');
     }
 
     return vendor;

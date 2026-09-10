@@ -1,0 +1,49 @@
+enum LeaveStatus {
+  Pending
+  Approved
+  Rejected
+  Cancelled
+}
+
+type LeaveRequest {
+  id: ID!
+  userId: ID!
+  managerId: ID
+  leaveTypeId: ID!
+  leaveTypeCode: String!
+  leaveTypeDescription: String!
+  reason: String!
+  fromDate: DateTime!
+  toDate: DateTime!
+  totalDays: Float!
+  status: LeaveStatus!
+  comments: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  isDeleted: Boolean!
+  canCancel: Boolean!
+}
+
+input CreateLeaveInput {
+  leaveTypeCode: String!
+  reason: String!
+  fromDate: DateTime!
+  toDate: DateTime!
+}
+
+type LeaveListResponse {
+  results: [LeaveRequest!]!
+  totalCount: Int!
+}
+
+extend type Query {
+  getMyLeaves(offset: Int, limit: Int): LeaveListResponse!
+  getTeamLeaves(offset: Int, limit: Int, status: LeaveStatus): LeaveListResponse!
+  getAllLeaves(offset: Int, limit: Int, status: LeaveStatus, search: String): LeaveListResponse!
+}
+
+extend type Mutation {
+  createLeave(input: CreateLeaveInput!): LeaveRequest!
+  cancelLeaveById(id: ID!): LeaveRequest!
+  reviewLeaveById(id: ID!, status: LeaveStatus!, comments: String): LeaveRequest!
+}

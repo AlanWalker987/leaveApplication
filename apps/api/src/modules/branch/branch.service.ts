@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../database/prisma/prisma.service';
 import * as GraphqlTypes from '../../graphql-types';
 
@@ -6,26 +7,66 @@ import * as GraphqlTypes from '../../graphql-types';
 export class BranchService {
   constructor(private prismaService: PrismaService) {}
 
-  async getAllBranches(pagination: {
-    offset: number;
-    limit: number;
-  }): Promise<GraphqlTypes.BranchListResponse> {
+  async getAllBranches(
+    pagination: {
+      offset: number;
+      limit: number;
+    },
+    search?: string,
+    sortBy?: string,
+    sortOrder?: string,
+  ): Promise<GraphqlTypes.BranchListResponse> {
     const { offset, limit } = pagination;
-    const branches = await this.prismaService.branch.findMany({
-      skip: offset,
-      take: limit,
-    });
+    const normalizedSearch = search?.trim();
+    const where = {
+      isDeleted: false,
+      ...(normalizedSearch
+        ? { name: { contains: normalizedSearch, mode: 'insensitive' as const } }
+        : {}),
+    };
 
-    return { results: branches, totalCount: branches.length };
+    const [branches, totalCount] = await this.prismaService.$transaction([
+      this.prismaService.branch.findMany({
+        where,
+        orderBy: this.getBranchOrderBy(sortBy, sortOrder),
+        skip: offset,
+        take: limit,
+      }),
+      this.prismaService.branch.count({
+        where,
+      }),
+    ]);
+
+    return { results: branches, totalCount };
+  }
+
+  private getBranchOrderBy(
+    sortBy?: string,
+    sortOrder?: string,
+  ): Prisma.BranchOrderByWithRelationInput[] {
+    const order: Prisma.SortOrder = sortOrder === 'desc' ? 'desc' : 'asc';
+
+    switch (sortBy) {
+      case 'name':
+        return [{ name: order }, { createdAt: 'desc' }];
+      case 'code':
+        return [{ code: order }, { name: 'asc' }];
+      case 'location':
+        return [{ location: order }, { name: 'asc' }];
+      case 'createdAt':
+        return [{ createdAt: order }, { name: 'asc' }];
+      default:
+        return [{ name: 'asc' }, { createdAt: 'desc' }];
+    }
   }
 
   async getBranchById(id: string): Promise<GraphqlTypes.Branch | null> {
-    const branch = await this.prismaService.branch.findUnique({
-      where: { id },
+    const branch = await this.prismaService.branch.findFirst({
+      where: { id, isDeleted: false },
     });
 
     if (!branch) {
-      return null;
+      throw new NotFoundException('Branch not found');
     }
 
     return branch;
@@ -71,7 +112,7 @@ export class BranchService {
   ): Promise<GraphqlTypes.Branch> {
     const { code, location, name } = input;
     const existingBranch = await this.prismaService.branch.findFirst({
-      where: { id },
+      where: { id, isDeleted: false },
     });
 
     if (!existingBranch) {
@@ -93,7 +134,7 @@ export class BranchService {
   // soft deleting the branch by setting isDeleted to true
   async deleteBranchById(id: string): Promise<GraphqlTypes.Branch> {
     const existingBranch = await this.prismaService.branch.findFirst({
-      where: { id },
+      where: { id, isDeleted: false },
     });
 
     if (!existingBranch) {

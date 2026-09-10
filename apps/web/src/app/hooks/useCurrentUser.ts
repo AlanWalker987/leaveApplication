@@ -13,6 +13,7 @@ type CurrentUser = {
   designation: string;
   branchId: string | null;
   vendorId: string | null;
+  gender?: 'Male' | 'Female' | null;
 };
 
 type GetMeQueryData = {

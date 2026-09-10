@@ -32,12 +32,12 @@ export function SamplePageFeature() {
 
   if (!authenticated) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-100 px-4">
-        <section className="w-full max-w-lg rounded-2xl bg-white p-8 text-center shadow-md">
-          <h1 className="text-2xl font-bold text-slate-900">Session Not Found</h1>
-          <p className="mt-2 text-sm text-slate-600">Please login first to view the sample page.</p>
+      <main className="flex min-h-screen items-center justify-center bg-[var(--app-surface-2)] px-4">
+        <section className="w-full max-w-lg rounded-2xl bg-[var(--app-surface)] p-8 text-center shadow-md">
+          <h1 className="text-2xl font-bold text-[var(--app-text)]">Session Not Found</h1>
+          <p className="mt-2 text-sm text-[var(--app-text)]">Please login first to view the sample page.</p>
           <Link
-            className="mt-5 inline-block rounded-md bg-slate-900 px-4 py-2 font-semibold text-white"
+            className="mt-5 inline-block rounded-md bg-[var(--app-black)] px-4 py-2 font-semibold text-[var(--app-white)]"
             href="/login"
           >
             Go to Login
@@ -53,20 +53,20 @@ export function SamplePageFeature() {
 
   if (error) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-100 px-4">
-        <section className="w-full max-w-xl rounded-2xl bg-white p-8 shadow-md">
-          <h1 className="text-xl font-bold text-slate-900">Could not load profile</h1>
-          <p className="mt-2 text-sm text-red-700">{error.message}</p>
+      <main className="flex min-h-screen items-center justify-center bg-[var(--app-surface-2)] px-4">
+        <section className="w-full max-w-xl rounded-2xl bg-[var(--app-surface)] p-8 shadow-md">
+          <h1 className="text-xl font-bold text-[var(--app-text)]">Could not load profile</h1>
+          <p className="mt-2 text-sm text-[var(--app-error)]">{error.message}</p>
           <div className="mt-5 flex gap-3">
             <button
-              className="rounded-md bg-slate-900 px-4 py-2 font-semibold text-white"
+              className="rounded-md bg-[var(--app-black)] px-4 py-2 font-semibold text-[var(--app-white)]"
               onClick={onLogout}
               type="button"
             >
               Logout
             </button>
             <Link
-              className="rounded-md bg-slate-200 px-4 py-2 font-semibold text-slate-900"
+              className="rounded-md bg-[var(--app-surface-2)] px-4 py-2 font-semibold text-[var(--app-text)]"
               href="/login"
             >
               Login Again
@@ -80,12 +80,12 @@ export function SamplePageFeature() {
   const user = data?.me;
 
   return (
-    <main className="min-h-screen bg-slate-100 px-4 py-10">
-      <section className="mx-auto w-full max-w-3xl rounded-2xl bg-white p-8 shadow-md">
+    <main className="min-h-screen bg-[var(--app-surface-2)] px-4 py-10">
+      <section className="mx-auto w-full max-w-3xl rounded-2xl bg-[var(--app-surface)] p-8 shadow-md">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-slate-900">Sample Page</h1>
+          <h1 className="text-2xl font-bold text-[var(--app-text)]">Sample Page</h1>
           <button
-            className="rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white"
+            className="rounded-md bg-[var(--app-black)] px-4 py-2 text-sm font-semibold text-[var(--app-white)]"
             onClick={onLogout}
             type="button"
           >
@@ -93,41 +93,41 @@ export function SamplePageFeature() {
           </button>
         </div>
 
-        <p className="mt-2 text-sm text-slate-600">
+        <p className="mt-2 text-sm text-[var(--app-text)]">
           Authenticated user data loaded from GraphQL me query.
         </p>
 
         {user ? (
-          <dl className="mt-6 grid grid-cols-1 gap-3 rounded-lg border border-slate-200 p-4 md:grid-cols-2">
+          <dl className="mt-6 grid grid-cols-1 gap-3 rounded-lg border border-[var(--app-border)] p-4 md:grid-cols-2">
             <div>
-              <dt className="text-xs uppercase text-slate-500">Name</dt>
-              <dd className="text-sm font-semibold text-slate-900">
+              <dt className="text-xs uppercase text-[var(--app-text-muted)]">Name</dt>
+              <dd className="text-sm font-semibold text-[var(--app-text)]">
                 {user.firstName} {user.lastName}
               </dd>
             </div>
             <div>
-              <dt className="text-xs uppercase text-slate-500">Email</dt>
-              <dd className="text-sm font-semibold text-slate-900">{user.email}</dd>
+              <dt className="text-xs uppercase text-[var(--app-text-muted)]">Email</dt>
+              <dd className="text-sm font-semibold text-[var(--app-text)]">{user.email}</dd>
             </div>
             <div>
-              <dt className="text-xs uppercase text-slate-500">Role</dt>
-              <dd className="text-sm font-semibold text-slate-900">{user.userRole}</dd>
+              <dt className="text-xs uppercase text-[var(--app-text-muted)]">Role</dt>
+              <dd className="text-sm font-semibold text-[var(--app-text)]">{user.userRole}</dd>
             </div>
             <div>
-              <dt className="text-xs uppercase text-slate-500">Designation</dt>
-              <dd className="text-sm font-semibold text-slate-900">{user.designation}</dd>
+              <dt className="text-xs uppercase text-[var(--app-text-muted)]">Designation</dt>
+              <dd className="text-sm font-semibold text-[var(--app-text)]">{user.designation}</dd>
             </div>
             <div>
-              <dt className="text-xs uppercase text-slate-500">Branch ID</dt>
-              <dd className="text-sm font-semibold text-slate-900">{user.branchId}</dd>
+              <dt className="text-xs uppercase text-[var(--app-text-muted)]">Branch ID</dt>
+              <dd className="text-sm font-semibold text-[var(--app-text)]">{user.branchId}</dd>
             </div>
             <div>
-              <dt className="text-xs uppercase text-slate-500">Vendor ID</dt>
-              <dd className="text-sm font-semibold text-slate-900">{user.vendorId}</dd>
+              <dt className="text-xs uppercase text-[var(--app-text-muted)]">Vendor ID</dt>
+              <dd className="text-sm font-semibold text-[var(--app-text)]">{user.vendorId}</dd>
             </div>
           </dl>
         ) : (
-          <p className="mt-4 text-sm text-slate-600">No user profile returned.</p>
+          <p className="mt-4 text-sm text-[var(--app-text)]">No user profile returned.</p>
         )}
       </section>
     </main>

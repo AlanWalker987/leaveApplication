@@ -13,13 +13,16 @@ export class BranchResolver {
   async getBranches(
     @Args('offset') offset?: number,
     @Args('limit') limit?: number,
+    @Args('search') search?: string,
+    @Args('sortBy') sortBy?: string,
+    @Args('sortOrder') sortOrder?: string,
   ): Promise<GraphqlTypes.BranchListResponse> {
     const pagination = {
       offset: Number(offset ?? 0),
       limit: Number(limit ?? 20),
     };
 
-    return this.branchService.getAllBranches(pagination);
+    return this.branchService.getAllBranches(pagination, search, sortBy, sortOrder);
   }
 
   @Query('getBranchById')

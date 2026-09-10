@@ -278,7 +278,7 @@ table.table {
 
 .make-buy-indicator {
   background: var(--bs-body-bg);
-  box-shadow: inset 0px 0px 4px #21252940;
+  box-shadow: inset 0px 0px 4px var(--app-shadow-soft);
   border: 1px solid var(--bs-border-color);
   border-radius: 50px;
   color: var(--bs-orange);

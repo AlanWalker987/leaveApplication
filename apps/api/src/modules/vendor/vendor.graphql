@@ -29,7 +29,13 @@ type VendorListResponse {
 }
 
 extend type Query {
-  getVendors(offset: Int, limit: Int): VendorListResponse!
+  getVendors(
+    offset: Int
+    limit: Int
+    search: String
+    sortBy: String
+    sortOrder: String
+  ): VendorListResponse!
   getVendorById(id: ID!): Vendor
 }
 

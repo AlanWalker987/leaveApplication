@@ -23,7 +23,13 @@ type PublicHolidayListResponse {
 }
 
 extend type Query {
-  getPublicHolidays(offset: Int, limit: Int): PublicHolidayListResponse!
+  getPublicHolidays(
+    offset: Int
+    limit: Int
+    search: String
+    sortBy: String
+    sortOrder: String
+  ): PublicHolidayListResponse!
   getPublicHolidayById(id: ID!): PublicHoliday
 }
 

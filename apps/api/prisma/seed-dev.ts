@@ -1,11 +1,13 @@
 /// <reference types="node" />
 
-import { PrismaClient } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
+import { LeaveEligibilityGender, PrismaClient, Role } from '@prisma/client';
 
 const prisma = new PrismaClient();
 const DEFAULT_VENDOR_ID = '00000000-0000-0000-0000-000000000001';
 
 type BranchSeed = {
+  id: string;
   code: string;
   name: string;
   location: string;
@@ -28,20 +30,44 @@ type PublicHolidaySeed = {
 type LeaveTypeSeed = {
   code: string;
   description: string;
+  annualAllowance: number;
+  eligibilityGender: LeaveEligibilityGender;
+};
+
+type UserSeed = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: Role;
+  designation: string;
+  branchCode: string;
+};
+
+type DepartmentSeed = {
+  id: string;
+  name: string;
+  subtitle: string;
+  location: string;
+  managerEmail: string;
+  employeeEmails: string[];
 };
 
 const branchSeeds: BranchSeed[] = [
   {
+    id: '00000000-0000-0000-0000-000000000001',
     code: 'HQ',
     name: 'Headquarters',
     location: 'Colombo',
   },
   {
+    id: '00000000-0000-0000-0000-000000000002',
     code: 'BR-001',
     name: 'Kandy Branch',
     location: 'Kandy',
   },
   {
+    id: '00000000-0000-0000-0000-000000000003',
     code: 'BR-002',
     name: 'Galle Branch',
     location: 'Galle',
@@ -86,8 +112,151 @@ const publicHolidaySeeds: PublicHolidaySeed[] = [
 ];
 
 const leaveTypeSeeds: LeaveTypeSeed[] = [
-  { code: 'AH', description: 'Additional leave' },
-  { code: 'EL', description: 'Earn leave' },
+  {
+    code: 'AH',
+    description: 'Additional leave',
+    annualAllowance: 12,
+    eligibilityGender: LeaveEligibilityGender.FemaleOnly,
+  },
+  {
+    code: 'EL',
+    description: 'Earn leave',
+    annualAllowance: 20,
+    eligibilityGender: LeaveEligibilityGender.Any,
+  },
+];
+
+const userSeeds: UserSeed[] = [
+  {
+    id: '00000000-0000-0000-0000-000000001001',
+    firstName: 'Sarah',
+    lastName: 'Chen',
+    email: 'sarah.chen@example.com',
+    role: Role.Manager,
+    designation: 'Department Manager',
+    branchCode: 'HQ',
+  },
+  {
+    id: '00000000-0000-0000-0000-000000001002',
+    firstName: 'Kiran',
+    lastName: 'Mehta',
+    email: 'kiran.mehta@example.com',
+    role: Role.Manager,
+    designation: 'Department Manager',
+    branchCode: 'HQ',
+  },
+  {
+    id: '00000000-0000-0000-0000-000000001003',
+    firstName: 'Jamie',
+    lastName: 'Lee',
+    email: 'jamie.lee@example.com',
+    role: Role.Employee,
+    designation: 'Software Engineer',
+    branchCode: 'HQ',
+  },
+  {
+    id: '00000000-0000-0000-0000-000000001004',
+    firstName: 'James',
+    lastName: 'Wong',
+    email: 'james.wong@example.com',
+    role: Role.Employee,
+    designation: 'Software Engineer',
+    branchCode: 'HQ',
+  },
+  {
+    id: '00000000-0000-0000-0000-000000001005',
+    firstName: 'Wei',
+    lastName: 'Lin',
+    email: 'wei.lin@example.com',
+    role: Role.Employee,
+    designation: 'QA Engineer',
+    branchCode: 'HQ',
+  },
+  {
+    id: '00000000-0000-0000-0000-000000001006',
+    firstName: 'Linda',
+    lastName: 'Grant',
+    email: 'linda.grant@example.com',
+    role: Role.Employee,
+    designation: 'Product Engineer',
+    branchCode: 'HQ',
+  },
+  {
+    id: '00000000-0000-0000-0000-000000001007',
+    firstName: 'Priya',
+    lastName: 'Nair',
+    email: 'priya.nair@example.com',
+    role: Role.Employee,
+    designation: 'HR Specialist',
+    branchCode: 'HQ',
+  },
+  {
+    id: '00000000-0000-0000-0000-000000001008',
+    firstName: 'Aisha',
+    lastName: 'Babu',
+    email: 'aisha.babu@example.com',
+    role: Role.Employee,
+    designation: 'Operations Coordinator',
+    branchCode: 'BR-001',
+  },
+  {
+    id: '00000000-0000-0000-0000-000000001009',
+    firstName: 'Arjun',
+    lastName: 'Das',
+    email: 'arjun.das@example.com',
+    role: Role.Employee,
+    designation: 'Logistics Coordinator',
+    branchCode: 'BR-001',
+  },
+  {
+    id: '00000000-0000-0000-0000-000000001010',
+    firstName: 'Rajan',
+    lastName: 'Patel',
+    email: 'rajan.patel@example.com',
+    role: Role.Employee,
+    designation: 'Finance Analyst',
+    branchCode: 'HQ',
+  },
+];
+
+const departmentSeeds: DepartmentSeed[] = [
+  {
+    id: '00000000-0000-0000-0000-000000002001',
+    name: 'Engineering',
+    subtitle: 'Product development, infrastructure and QA',
+    location: 'Singapore HQ',
+    managerEmail: 'sarah.chen@example.com',
+    employeeEmails: [
+      'jamie.lee@example.com',
+      'james.wong@example.com',
+      'wei.lin@example.com',
+      'linda.grant@example.com',
+    ],
+  },
+  {
+    id: '00000000-0000-0000-0000-000000002002',
+    name: 'Human Resources',
+    subtitle: 'Talent acquisition, payroll and compliance',
+    location: 'Singapore HQ',
+    managerEmail: 'sarah.chen@example.com',
+    employeeEmails: ['priya.nair@example.com'],
+  },
+  {
+    id: '00000000-0000-0000-0000-000000002003',
+    name: 'Operations',
+    subtitle: 'Facilities, logistics and vendor management',
+    location: 'Chennai',
+    managerEmail: 'kiran.mehta@example.com',
+    employeeEmails: ['aisha.babu@example.com', 'arjun.das@example.com'],
+  },
+  {
+    id: '00000000-0000-0000-0000-000000002004',
+    name: 'Finance',
+    subtitle: 'Budgeting, accounts and audit',
+    location: 'Chennai',
+    managerEmail: 'kiran.mehta@example.com',
+    employeeEmails: ['rajan.patel@example.com'],
+  },
 ];
 
 function parseHolidayDate(date: string): Date {
@@ -162,6 +331,88 @@ async function seedVendors(now: Date) {
   }
 }
 
+async function seedUsers(now: Date) {
+  const passwordHash = await bcrypt.hash('Password123!', 10);
+
+  for (const user of userSeeds) {
+    const branch = await prisma.branch.findUniqueOrThrow({
+      where: { code: user.branchCode },
+    });
+
+    await prisma.user.upsert({
+      where: { id: user.id },
+      update: {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        hash: passwordHash,
+        userRole: user.role,
+        designation: user.designation,
+        branchId: branch.id,
+        updatedAt: now,
+      },
+      create: {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        hash: passwordHash,
+        userRole: user.role,
+        designation: user.designation,
+        branchId: branch.id,
+        phoneNumber: '0000000000',
+        dateOfBirth: new Date('1990-01-01T00:00:00.000Z'),
+        dateOfJoining: new Date('2025-01-01T00:00:00.000Z'),
+        emergencyContactName: 'Emergency Contact',
+        emergencyContactNumber: '0000000000',
+        createAt: now,
+        updatedAt: now,
+        isDeleted: false,
+      },
+    });
+  }
+}
+
+async function seedDepartments(now: Date) {
+  await prisma.user.updateMany({
+    where: { email: { in: userSeeds.map((user) => user.email) } },
+    data: { departmentId: null },
+  });
+
+  for (const department of departmentSeeds) {
+    const manager = await prisma.user.findUniqueOrThrow({
+      where: { email: department.managerEmail },
+    });
+
+    await prisma.department.upsert({
+      where: { id: department.id },
+      update: {
+        name: department.name,
+        subtitle: department.subtitle,
+        location: department.location,
+        managerId: manager.id,
+        updatedAt: now,
+        isDeleted: false,
+      },
+      create: {
+        id: department.id,
+        name: department.name,
+        subtitle: department.subtitle,
+        location: department.location,
+        managerId: manager.id,
+        createdAt: now,
+        updatedAt: now,
+        isDeleted: false,
+      },
+    });
+
+    await prisma.user.updateMany({
+      where: { email: { in: department.employeeEmails } },
+      data: { departmentId: department.id, managerId: manager.id },
+    });
+  }
+}
+
 async function seedPublicHolidays(now: Date) {
   const holidays = publicHolidaySeeds
     .map((holiday) => ({
@@ -197,31 +448,37 @@ async function seedPublicHolidays(now: Date) {
 }
 
 async function seedLeaveTypes(now: Date) {
-  await prisma.leaveTypes.deleteMany({
-    where: {
-      code: {
-        in: leaveTypeSeeds.map((leaveType) => leaveType.code),
+  for (const leaveType of leaveTypeSeeds.sort((a, b) => a.code.localeCompare(b.code))) {
+    await prisma.leaveTypes.upsert({
+      where: {
+        code: leaveType.code,
       },
-    },
-  });
-
-  await prisma.leaveTypes.createMany({
-    data: leaveTypeSeeds
-      .map((leaveType) => ({
+      update: {
+        description: leaveType.description,
+        annualAllowance: leaveType.annualAllowance,
+        eligibilityGender: leaveType.eligibilityGender,
+        updatedAt: now,
+        isDeleted: false,
+      },
+      create: {
         code: leaveType.code,
         description: leaveType.description,
+        annualAllowance: leaveType.annualAllowance,
+        eligibilityGender: leaveType.eligibilityGender,
         createAt: now,
         updatedAt: now,
         isDeleted: false,
-      }))
-      .sort((a, b) => a.code.localeCompare(b.code)),
-  });
+      },
+    });
+  }
 }
 
 async function runSeed() {
   const now = new Date();
   await seedVendors(now);
   await seedBranches(now);
+  await seedUsers(now);
+  await seedDepartments(now);
   await seedPublicHolidays(now);
   await seedLeaveTypes(now);
 }

@@ -1,7 +1,9 @@
 'use client';
 
+import { getCurrentHour } from '@/lib/datetimeutile';
+
 export function useCurrentTimeGreetingMessage() {
-  const hour = new Date().getHours();
+  const hour = getCurrentHour();
 
   const userGreetingMessage =
     hour >= 5 && hour < 12

@@ -14,10 +14,10 @@ export default function EmployeeLeaveCard({
   title,
   subtitle,
   value,
-  iconClassName = 'bg-slate-100 text-slate-700',
+  iconClassName = 'bg-[var(--app-surface-2)] text-[var(--app-text)]',
 }: EmployeeLeaveCardProps) {
   return (
-    <Card className="h-full rounded-2xl border border-slate-200 shadow-none">
+    <Card className="h-full rounded-2xl border border-[var(--app-border)] shadow-none">
       <CardContent className="h-full p-4">
         <div
           className={[
@@ -28,9 +28,9 @@ export default function EmployeeLeaveCard({
           {icon}
         </div>
 
-        <p className="mt-3 text-4xl font-semibold leading-none text-slate-900">{value}</p>
-        <p className="mt-2 text-lg font-medium leading-tight text-slate-900">{title}</p>
-        <p className="mt-1 text-base leading-tight text-slate-500">{subtitle}</p>
+        <p className="mt-3 text-4xl font-semibold leading-none text-[var(--app-text)]">{value}</p>
+        <p className="mt-2 text-lg font-medium leading-tight text-[var(--app-text)]">{title}</p>
+        <p className="mt-1 text-base leading-tight text-[var(--app-text-muted)]">{subtitle}</p>
       </CardContent>
     </Card>
   );

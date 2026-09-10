@@ -130,13 +130,13 @@ export function LoginPageFeature() {
         className="mx-auto h-full w-full max-w-none overflow-hidden px-3 py-3 md:px-5 md:py-4"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="grid h-full overflow-hidden rounded-[28px] border border-[#e4defe] bg-white shadow-[0_16px_42px_rgba(36,27,90,0.14)] xl:grid-cols-[44%_56%]">
-          <aside className="relative hidden h-full flex-col overflow-hidden bg-gradient-to-b from-[#f7f4ff] via-[#f4f0ff] to-[#f8f6ff] p-8 xl:flex">
-            <div className="pointer-events-none absolute -right-10 top-12 h-20 w-20 rounded-full bg-[#e8e0ff] blur-xl" />
-            <div className="pointer-events-none absolute left-6 top-[44%] h-12 w-12 rounded-full bg-[#dcd0ff] blur-lg" />
+        <div className="grid h-full overflow-hidden rounded-[28px] border border-[var(--app-border)] bg-[var(--app-surface)] shadow-[0_16px_42px_rgba(36,27,90,0.14)] xl:grid-cols-[44%_56%]">
+          <aside className="relative hidden h-full flex-col overflow-hidden bg-gradient-to-b from-[var(--app-surface)] via-[var(--app-surface-2)] to-[var(--app-bg)] p-8 xl:flex">
+            <div className="pointer-events-none absolute -right-10 top-12 h-20 w-20 rounded-full bg-[var(--app-electric-blue-1)] blur-xl" />
+            <div className="pointer-events-none absolute left-6 top-[44%] h-12 w-12 rounded-full bg-[var(--app-electric-blue-1)] blur-lg" />
 
             <div className="flex items-center gap-3">
-              <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-[#6246ea] shadow-[0_8px_20px_rgba(50,34,114,0.25)]">
+              <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--app-surface)] text-[var(--app-primary)] shadow-[0_8px_20px_rgba(50,34,114,0.25)]">
                 <svg fill="none" height="28" viewBox="0 0 24 24" width="28">
                   <rect
                     x="4"
@@ -161,27 +161,27 @@ export function LoginPageFeature() {
                   />
                 </svg>
               </span>
-              <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[#5f6393]">
+              <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--app-text-muted)]">
                 Leave Management
               </span>
             </div>
 
-            <h2 className="mt-8 font-heading text-[34px] leading-[1.1] text-[#2f2b5b]">
+            <h2 className="mt-8 font-heading text-[34px] leading-[1.1] text-[var(--app-text)]">
               Welcome Back!
             </h2>
-            <p className="mt-1.5 font-heading text-[30px] leading-[1.12] text-[#2f2b5b]">
+            <p className="mt-1.5 font-heading text-[30px] leading-[1.12] text-[var(--app-text)]">
               Great to have you back.
             </p>
 
-            <div className="mt-7 h-[2px] w-16 bg-[#d7ccff]" />
-            <p className="mt-5 max-w-[260px] text-sm leading-[1.45] text-[#5f6393]">
+            <div className="mt-7 h-[2px] w-16 bg-[var(--app-electric-blue-1)]" />
+            <p className="mt-5 max-w-[260px] text-sm leading-[1.45] text-[var(--app-text-muted)]">
               Manage leaves, approvals and balances seamlessly in one place.
             </p>
 
-            <div className="relative mt-auto rounded-2xl border border-[#e4defe] bg-white/75 px-6 py-4 backdrop-blur-sm">
-              <div className="grid grid-cols-3 divide-x divide-[#ebe5ff] text-center">
+            <div className="relative mt-auto rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface)]/75 px-6 py-4 backdrop-blur-sm">
+              <div className="grid grid-cols-3 divide-x divide-[var(--app-electric-blue-1)] text-center">
                 <div className="px-2">
-                  <span className="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c9bbf7] text-[#6246ea]">
+                  <span className="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--app-electric-blue-1)] text-[var(--app-primary)]">
                     <svg fill="none" height="20" viewBox="0 0 24 24" width="20">
                       <path
                         d="m5 12 14-7-4 14-3-5-7-2Z"
@@ -192,12 +192,12 @@ export function LoginPageFeature() {
                       />
                     </svg>
                   </span>
-                  <p className="mt-2 text-[14px] font-medium leading-[1.3] text-[#5f6393]">
+                  <p className="mt-2 text-[14px] font-medium leading-[1.3] text-[var(--app-text-muted)]">
                     Submit Leave in seconds
                   </p>
                 </div>
                 <div className="px-2">
-                  <span className="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c9bbf7] text-[#6246ea]">
+                  <span className="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--app-electric-blue-1)] text-[var(--app-primary)]">
                     <svg fill="none" height="20" viewBox="0 0 24 24" width="20">
                       <path
                         d="M4 19V5m5 14V9m5 10V12m5 7V7"
@@ -207,12 +207,12 @@ export function LoginPageFeature() {
                       />
                     </svg>
                   </span>
-                  <p className="mt-2 text-[14px] font-medium leading-[1.3] text-[#5f6393]">
+                  <p className="mt-2 text-[14px] font-medium leading-[1.3] text-[var(--app-text-muted)]">
                     Track Status in real time
                   </p>
                 </div>
                 <div className="px-2">
-                  <span className="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c9bbf7] text-[#6246ea]">
+                  <span className="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--app-electric-blue-1)] text-[var(--app-primary)]">
                     <svg fill="none" height="20" viewBox="0 0 24 24" width="20">
                       <path
                         d="M12 22a3 3 0 0 0 2.9-2.2M5 16h14l-1.2-1.6A5 5 0 0 1 17 11V9a5 5 0 1 0-10 0v2c0 1.2-.4 2.4-1.2 3.4L5 16Z"
@@ -223,7 +223,7 @@ export function LoginPageFeature() {
                       />
                     </svg>
                   </span>
-                  <p className="mt-2 text-[14px] font-medium leading-[1.3] text-[#5f6393]">
+                  <p className="mt-2 text-[14px] font-medium leading-[1.3] text-[var(--app-text-muted)]">
                     Stay Updated always
                   </p>
                 </div>
@@ -241,22 +241,22 @@ export function LoginPageFeature() {
             </div>
           </aside>
 
-          <section className="flex h-full min-h-0 overflow-y-auto bg-white px-6 py-8 md:px-9 md:py-10 xl:px-12">
+          <section className="flex h-full min-h-0 overflow-y-auto bg-[var(--app-surface)] px-6 py-8 md:px-9 md:py-10 xl:px-12">
             <div className="m-auto w-full max-w-[520px]">
               <header>
-                <h1 className="text-[24px] font-semibold text-[#1f2940] md:text-[26px]">
+                <h1 className="text-[24px] font-semibold text-[var(--app-text)] md:text-[26px]">
                   Sign in to your account
                 </h1>
-                <p className="mt-1 text-sm text-[#6e7890]">
+                <p className="mt-1 text-sm text-[var(--app-text-muted)]">
                   Use your work credentials to continue.
                 </p>
               </header>
 
               <div className="mt-8 space-y-6">
-                <label className="block text-sm font-semibold text-[#1f2a3b]">
+                <label className="block text-sm font-semibold text-[var(--app-text)]">
                   Work Email
                   <div className="relative mt-2">
-                    <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-[#7f8a9b]">
+                    <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-[var(--app-text-muted)]">
                       <svg fill="none" height="20" viewBox="0 0 24 24" width="20">
                         <rect
                           x="3"
@@ -278,7 +278,7 @@ export function LoginPageFeature() {
                     </span>
                     <input
                       type="email"
-                      className="h-11 w-full rounded-xl border border-[#d8e2f0] bg-white pl-12 pr-4 text-[14px] text-[#1f2937] outline-none transition focus:border-[#6246ea] focus:ring-2 focus:ring-[color:rgba(98,70,234,0.14)]"
+                      className="h-11 w-full rounded-xl border border-[var(--app-border)] bg-[var(--app-surface)] pl-12 pr-4 text-[14px] text-[var(--app-text)] outline-none transition focus:border-[var(--app-primary)] focus:ring-2 focus:ring-[color:rgba(98,70,234,0.14)]"
                       placeholder="Enter your work email"
                       {...register('email')}
                     />
@@ -290,10 +290,10 @@ export function LoginPageFeature() {
                   ) : null}
                 </label>
 
-                <label className="block text-sm font-semibold text-[#1f2a3b]">
+                <label className="block text-sm font-semibold text-[var(--app-text)]">
                   Password
                   <div className="relative mt-2">
-                    <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-[#7f8a9b]">
+                    <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-[var(--app-text-muted)]">
                       <svg fill="none" height="20" viewBox="0 0 24 24" width="20">
                         <rect
                           x="5"
@@ -309,13 +309,13 @@ export function LoginPageFeature() {
                     </span>
                     <input
                       type={showPassword ? 'text' : 'password'}
-                      className="no-native-password-toggle h-11 w-full rounded-xl border border-[#d8e2f0] bg-white pl-12 pr-12 text-[14px] text-[#1f2937] outline-none transition focus:border-[#6246ea] focus:ring-2 focus:ring-[color:rgba(98,70,234,0.14)]"
+                      className="no-native-password-toggle h-11 w-full rounded-xl border border-[var(--app-border)] bg-[var(--app-surface)] pl-12 pr-12 text-[14px] text-[var(--app-text)] outline-none transition focus:border-[var(--app-primary)] focus:ring-2 focus:ring-[color:rgba(98,70,234,0.14)]"
                       placeholder="Enter your password"
                       {...register('password')}
                     />
                     <button
                       type="button"
-                      className="absolute right-3 top-1/2 -translate-y-1/2 rounded p-1 text-[#7f8a9b] hover:text-[#4e5c6f]"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 rounded p-1 text-[var(--app-text-muted)] hover:text-[var(--app-text-muted)]"
                       aria-label={showPassword ? 'Hide password' : 'Show password'}
                       onClick={() => setShowPassword((value) => !value)}
                     >
@@ -365,23 +365,23 @@ export function LoginPageFeature() {
 
               <div className="mt-7">
                 <SubmitButton
-                  className="h-11 w-full rounded-xl bg-black text-white shadow-[0_12px_24px_rgba(0,0,0,0.28)] hover:bg-[#1a1a1a]"
+                  className="h-11 w-full rounded-xl bg-[var(--app-black)] text-[var(--app-white)] shadow-[0_12px_24px_var(--app-shadow-strong)] hover:bg-[var(--app-gray-800)]"
                   idleLabel="Sign In"
                   loading={loading}
                   loadingLabel="Signing in..."
                 />
               </div>
 
-              <div className="mt-8 flex items-center gap-4 text-sm text-[#8a9bb3]">
-                <span className="h-px flex-1 bg-[#e2e8f3]" />
-                <span className="font-medium text-[#7d8aa0]">or</span>
-                <span className="h-px flex-1 bg-[#e2e8f3]" />
+              <div className="mt-8 flex items-center gap-4 text-sm text-[var(--app-text-muted)]">
+                <span className="h-px flex-1 bg-[var(--app-border)]" />
+                <span className="font-medium text-[var(--app-text-muted)]">or</span>
+                <span className="h-px flex-1 bg-[var(--app-border)]" />
               </div>
 
-              <p className="mt-5 text-center text-sm text-[#6e7890]">
+              <p className="mt-5 text-center text-sm text-[var(--app-text-muted)]">
                 New user?{' '}
                 <Link
-                  className="font-semibold text-[#4f46e5] hover:text-[#4338ca]"
+                  className="font-semibold text-[var(--app-primary)] hover:text-[var(--app-electric-blue-3)]"
                   href="/register"
                 >
                   Create an account

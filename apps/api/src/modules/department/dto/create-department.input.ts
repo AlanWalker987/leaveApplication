@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsArray, IsOptional, IsString } from 'class-validator';
 
 export class CreateDepartmentInput {
   @IsString()
@@ -12,4 +12,9 @@ export class CreateDepartmentInput {
 
   @IsString()
   managerId: string;
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  employeeIds?: string[];
 }

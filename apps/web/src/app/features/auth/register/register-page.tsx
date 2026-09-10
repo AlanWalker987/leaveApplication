@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { BriefcaseBusiness, Lock, Phone, UserRound } from 'lucide-react';
 import { AuthShell, MessagePopup, SubmitButton } from '../../../../components';
 import { SelectInput, TextInput } from '../../../../components/form';
 import { type RegisterFormValues, registerSchema } from '../schemas/form-schemas';
@@ -18,6 +19,7 @@ import {
   sectionOrder,
 } from '../utils/register-sections';
 import { initialFormState, inputClass, normalizeTenDigitPhoneInput } from '../utils/register-form';
+import { toIsoDateTime } from '@/lib/datetimeutile';
 
 export function RegisterPageFeature() {
   const router = useRouter();
@@ -120,6 +122,18 @@ export function RegisterPageFeature() {
     setPendingLoginRedirect(null);
 
     try {
+      const dateOfBirthIso = toIsoDateTime(form.dateOfBirth);
+      const dateOfJoiningIso = toIsoDateTime(form.dateOfJoining);
+
+      if (!dateOfBirthIso || !dateOfJoiningIso) {
+        setPopupState({
+          open: true,
+          message: 'Please provide valid dates for birth and joining.',
+          tone: 'error',
+        });
+        return;
+      }
+
       await registerUser({
         variables: {
           input: {
@@ -130,10 +144,11 @@ export function RegisterPageFeature() {
             userRole: form.userRole,
             phoneNumber: `+91${form.phoneNumber.trim()}`,
             designation: form.designation.trim(),
-            dateOfBirth: new Date(form.dateOfBirth).toISOString(),
-            dateOfJoining: new Date(form.dateOfJoining).toISOString(),
+            dateOfBirth: dateOfBirthIso,
+            dateOfJoining: dateOfJoiningIso,
             emergencyContactName: form.emergencyContactName.trim(),
             emergencyContactNumber: `+91${form.emergencyContactNumber.trim()}`,
+            gender: form.gender.trim(),
           },
         },
       });
@@ -172,19 +187,21 @@ export function RegisterPageFeature() {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="grid h-full gap-4 xl:grid-cols-[320px_1fr]">
-          <aside className="relative hidden h-full flex-col overflow-hidden rounded-2xl border border-[#e4defe] bg-gradient-to-b from-[#f7f4ff] via-[#f4f0ff] to-[#f8f6ff] p-6 xl:flex">
-            <div className="pointer-events-none absolute -right-10 top-4 h-28 w-28 rounded-full bg-[#e8e0ff] blur-2xl" />
-            <div className="pointer-events-none absolute -left-6 bottom-12 h-24 w-24 rounded-full bg-[#dcd0ff] blur-2xl" />
+          <aside className="relative hidden h-full flex-col overflow-hidden rounded-2xl border border-[var(--app-border)] bg-gradient-to-b from-[var(--app-surface)] via-[var(--app-surface-2)] to-[var(--app-bg)] p-6 xl:flex">
+            <div className="pointer-events-none absolute -right-10 top-4 h-28 w-28 rounded-full bg-[var(--app-electric-blue-1)] blur-2xl" />
+            <div className="pointer-events-none absolute -left-6 bottom-12 h-24 w-24 rounded-full bg-[var(--app-electric-blue-1)] blur-2xl" />
 
-            <h2 className="font-heading text-[30px] leading-[1.15] text-[#2f2b5b]">
+            <h2 className="font-heading text-[30px] leading-[1.15] text-[var(--app-text)]">
               Simplify Leave.
             </h2>
-            <p className="font-heading text-[30px] leading-[1.15] text-[#2f2b5b]">Focus on Work.</p>
-            <p className="mt-3 text-sm text-[#5f6393]">
+            <p className="font-heading text-[30px] leading-[1.15] text-[var(--app-text)]">
+              Focus on Work.
+            </p>
+            <p className="mt-3 text-sm text-[var(--app-text-muted)]">
               Create your account and manage leave seamlessly.
             </p>
 
-            <div className="relative mt-6 min-h-0 flex-1 overflow-hidden rounded-2xl border border-white/70 bg-white/60 shadow-[0_12px_30px_rgba(98,70,234,0.12)]">
+            <div className="relative mt-6 min-h-0 flex-1 overflow-hidden rounded-2xl border border-[var(--app-white)]/70 bg-[var(--app-surface)]/60 shadow-[0_12px_30px_rgba(98,70,234,0.12)]">
               <Image
                 src="/images/register-side-illustration.svg"
                 alt="Registration side panel illustration"
@@ -195,22 +212,22 @@ export function RegisterPageFeature() {
               />
             </div>
 
-            <p className="mt-3 text-xs font-medium text-[#6d6792]">
+            <p className="mt-3 text-xs font-medium text-[var(--app-text-muted)]">
               Smooth onboarding with one clean workflow.
             </p>
           </aside>
 
-          <div className="flex h-full min-h-0 flex-col gap-3 overflow-y-auto rounded-2xl border border-[#e6ebf5] bg-white p-4 pr-3 shadow-[0_8px_30px_rgba(24,38,75,0.06)] md:p-5 md:pr-4">
+          <div className="flex h-full min-h-0 flex-col gap-3 overflow-y-auto rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface)] p-4 pr-3 shadow-[0_8px_30px_rgba(24,38,75,0.06)] md:p-5 md:pr-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <h1 className="text-[22px] font-semibold text-[#1f2940] md:text-[24px]">
+                <h1 className="text-[22px] font-semibold text-[var(--app-text)] md:text-[24px]">
                   Employee Registration
                 </h1>
               </div>
-              <div className="pt-1 text-sm text-[#6e7890]">
+              <div className="pt-1 text-sm text-[var(--app-text-muted)]">
                 <span>Already have an account? </span>
                 <button
-                  className="font-semibold text-[#4f46e5] hover:underline"
+                  className="font-semibold text-[var(--app-primary)] hover:underline"
                   onClick={handleGoToLogin}
                   type="button"
                 >
@@ -220,7 +237,7 @@ export function RegisterPageFeature() {
             </div>
 
             {submitCount > 0 && hasAnyFieldErrors ? (
-              <div className="flex items-start gap-2 rounded-xl border border-[#fecaca] bg-[#fff6f6] px-3 py-2.5 text-sm text-[#dc2626]">
+              <div className="flex items-start gap-2 rounded-xl border border-[color:color-mix(in_srgb,var(--app-error)_28%,var(--app-border))] bg-[color:color-mix(in_srgb,var(--app-error)_8%,var(--app-bg))] px-3 py-2.5 text-sm text-[var(--app-error)]">
                 <svg
                   fill="none"
                   height="18"
@@ -241,20 +258,7 @@ export function RegisterPageFeature() {
 
             <AccordionSection
               title="Personal Information"
-              icon={
-                <svg fill="none" height="14" viewBox="0 0 24 24" width="14">
-                  <path
-                    d="M12 12c2.761 0 5-2.462 5-5.5S14.761 1 12 1 7 3.462 7 6.5 9.239 12 12 12Z"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                  />
-                  <path
-                    d="M3 23c0-4.418 4.03-8 9-8s9 3.582 9 8"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                  />
-                </svg>
-              }
+              icon={<UserRound size={14} />}
               open={openSections.personal}
               hasError={sectionErrorMap.personal}
               showStatus={submitCount > 0}
@@ -302,23 +306,23 @@ export function RegisterPageFeature() {
                 </Field>
 
                 <Field
-                  className="xl:col-span-3"
+                  className="xl:col-span-2"
                   error={errors.phoneNumber?.message}
                   label="Phone Number"
                   required
                 >
                   <div
-                    className={`flex h-[42px] w-full overflow-hidden rounded-xl border bg-white transition focus-within:ring-2 ${
+                    className={`flex h-[42px] w-full overflow-hidden rounded-xl border bg-[var(--app-surface)] transition focus-within:ring-2 ${
                       errors.phoneNumber?.message
-                        ? 'border-[#ef4444] focus-within:border-[#ef4444] focus-within:ring-[color:rgba(239,68,68,0.15)]'
-                        : 'border-[#d8e2f0] focus-within:border-[#6246ea] focus-within:ring-[color:rgba(98,70,234,0.14)]'
+                        ? 'border-[var(--app-error)] focus-within:border-[var(--app-error)] focus-within:ring-[color:rgba(239,68,68,0.15)]'
+                        : 'border-[var(--app-border)] focus-within:border-[var(--app-primary)] focus-within:ring-[color:rgba(98,70,234,0.14)]'
                     }`}
                   >
-                    <span className="pointer-events-none flex w-[72px] shrink-0 items-center justify-center border-r border-[#d8e2f0] bg-[var(--color-surface-soft)] text-[13px] font-semibold text-[#66758d]">
+                    <span className="pointer-events-none flex w-[72px] shrink-0 items-center justify-center border-r border-[var(--app-border)] bg-[var(--color-surface-soft)] text-[13px] font-semibold text-[var(--app-text-muted)]">
                       +91
                     </span>
                     <input
-                      className="h-full w-full border-0 bg-white px-3 text-[14px] text-[var(--color-ink)] outline-none placeholder:text-[#9aa6bc]"
+                      className="h-full w-full border-0 bg-[var(--app-surface)] px-3 text-[14px] text-[var(--color-ink)] outline-none placeholder:text-[var(--app-text-muted)]"
                       inputMode="numeric"
                       maxLength={10}
                       placeholder="Enter phone number"
@@ -331,8 +335,18 @@ export function RegisterPageFeature() {
                   </div>
                 </Field>
 
+                <Field className="xl:col-span-2" label="Gender" required>
+                  <SelectInput
+                    className={inputClass(errors.userRole?.message)}
+                    {...register('gender')}
+                  >
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </SelectInput>
+                </Field>
+
                 <Field
-                  className="xl:col-span-3"
+                  className="xl:col-span-2"
                   error={errors.dateOfBirth?.message}
                   label="Date of Birth"
                   required
@@ -348,20 +362,7 @@ export function RegisterPageFeature() {
 
             <AccordionSection
               title="Account Security"
-              icon={
-                <svg fill="none" height="14" viewBox="0 0 24 24" width="14">
-                  <rect
-                    height="11"
-                    rx="2"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    width="16"
-                    x="4"
-                    y="10"
-                  />
-                  <path d="M8 10V7a4 4 0 1 1 8 0v3" stroke="currentColor" strokeWidth="1.8" />
-                </svg>
-              }
+              icon={<Lock size={14} />}
               open={openSections.security}
               hasError={sectionErrorMap.security}
               showStatus={submitCount > 0}
@@ -378,7 +379,7 @@ export function RegisterPageFeature() {
                     />
                     <button
                       type="button"
-                      className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-[#7f8a9b] hover:text-[#4e5c6f]"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-[var(--app-text-muted)] hover:text-[var(--app-text-muted)]"
                       aria-label={showPassword ? 'Hide password' : 'Show password'}
                       onClick={() => setShowPassword((value) => !value)}
                     >
@@ -430,7 +431,7 @@ export function RegisterPageFeature() {
                     />
                     <button
                       type="button"
-                      className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-[#7f8a9b] hover:text-[#4e5c6f]"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-[var(--app-text-muted)] hover:text-[var(--app-text-muted)]"
                       aria-label={
                         showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'
                       }
@@ -478,24 +479,7 @@ export function RegisterPageFeature() {
 
             <AccordionSection
               title="Work Information"
-              icon={
-                <svg fill="none" height="14" viewBox="0 0 24 24" width="14">
-                  <rect
-                    height="13"
-                    rx="2"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    width="18"
-                    x="3"
-                    y="7"
-                  />
-                  <path
-                    d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 12h18"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                  />
-                </svg>
-              }
+              icon={<BriefcaseBusiness size={14} />}
               open={openSections.work}
               hasError={sectionErrorMap.work}
               showStatus={submitCount > 0}
@@ -533,16 +517,7 @@ export function RegisterPageFeature() {
 
             <AccordionSection
               title="Emergency Contact"
-              icon={
-                <svg fill="none" height="14" viewBox="0 0 24 24" width="14">
-                  <path
-                    d="M7.5 3h3L12 8l-2.5 1.5a15.9 15.9 0 0 0 5 5L16 12l5 1.5v3a2 2 0 0 1-2 2C10.7 18.5 5.5 13.3 5.5 7a2 2 0 0 1 2-2Z"
-                    stroke="currentColor"
-                    strokeLinejoin="round"
-                    strokeWidth="1.7"
-                  />
-                </svg>
-              }
+              icon={<Phone size={14} />}
               open={openSections.emergency}
               hasError={sectionErrorMap.emergency}
               showStatus={submitCount > 0}
@@ -567,17 +542,17 @@ export function RegisterPageFeature() {
                   required
                 >
                   <div
-                    className={`flex h-[42px] w-full overflow-hidden rounded-xl border bg-white transition focus-within:ring-2 ${
+                    className={`flex h-[42px] w-full overflow-hidden rounded-xl border bg-[var(--app-surface)] transition focus-within:ring-2 ${
                       errors.emergencyContactNumber?.message
-                        ? 'border-[#ef4444] focus-within:border-[#ef4444] focus-within:ring-[color:rgba(239,68,68,0.15)]'
-                        : 'border-[#d8e2f0] focus-within:border-[#6246ea] focus-within:ring-[color:rgba(98,70,234,0.14)]'
+                        ? 'border-[var(--app-error)] focus-within:border-[var(--app-error)] focus-within:ring-[color:rgba(239,68,68,0.15)]'
+                        : 'border-[var(--app-border)] focus-within:border-[var(--app-primary)] focus-within:ring-[color:rgba(98,70,234,0.14)]'
                     }`}
                   >
-                    <span className="pointer-events-none flex w-[72px] shrink-0 items-center justify-center border-r border-[#d8e2f0] bg-[var(--color-surface-soft)] text-[13px] font-semibold text-[#66758d]">
+                    <span className="pointer-events-none flex w-[72px] shrink-0 items-center justify-center border-r border-[var(--app-border)] bg-[var(--color-surface-soft)] text-[13px] font-semibold text-[var(--app-text-muted)]">
                       +91
                     </span>
                     <input
-                      className="h-full w-full border-0 bg-white px-3 text-[14px] text-[var(--color-ink)] outline-none placeholder:text-[#9aa6bc]"
+                      className="h-full w-full border-0 bg-[var(--app-surface)] px-3 text-[14px] text-[var(--color-ink)] outline-none placeholder:text-[var(--app-text-muted)]"
                       inputMode="numeric"
                       maxLength={10}
                       placeholder="Enter contact number"
@@ -592,29 +567,29 @@ export function RegisterPageFeature() {
               </div>
             </AccordionSection>
 
-            <div className="mt-1 rounded-xl border border-[#eceef7] bg-[#fafbff] px-3 py-2.5 text-sm text-[#616a81]">
+            <div className="mt-1 rounded-xl border border-[var(--app-border)] bg-[var(--app-surface)] px-3 py-2.5 text-sm text-[var(--app-text-muted)]">
               By creating an account, you agree to our{' '}
-              <span className="font-semibold text-[#4f46e5]">Terms</span> and{' '}
-              <span className="font-semibold text-[#4f46e5]">Privacy Policy</span>.
+              <span className="font-semibold text-[var(--app-primary)]">Terms</span> and{' '}
+              <span className="font-semibold text-[var(--app-primary)]">Privacy Policy</span>.
             </div>
 
-            <section className="rounded-xl border border-[#e7ecf7] bg-gradient-to-r from-[#fbfaff] to-[#f5f2ff] px-3.5 py-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#5954a7]">
+            <section className="rounded-xl border border-[var(--app-border)] bg-gradient-to-r from-[var(--app-surface)] to-[var(--app-surface-2)] px-3.5 py-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--app-text-muted)]">
                 Quick Tips
               </p>
-              <p className="mt-1 text-xs text-[#5f6a84]">
+              <p className="mt-1 text-xs text-[var(--app-text-muted)]">
                 Keep details accurate for a smoother setup. Most profile fields can be updated later
                 from your account settings.
               </p>
 
               <div className="mt-2 grid gap-2 md:grid-cols-3">
-                <div className="rounded-lg border border-[#e9edf7] bg-white/70 px-2.5 py-2 text-[11px] font-medium text-[#57627a]">
+                <div className="rounded-lg border border-[var(--app-border)] bg-[var(--app-surface)]/70 px-2.5 py-2 text-[11px] font-medium text-[var(--app-text-muted)]">
                   Use active contact details for verification updates.
                 </div>
-                <div className="rounded-lg border border-[#e9edf7] bg-white/70 px-2.5 py-2 text-[11px] font-medium text-[#57627a]">
+                <div className="rounded-lg border border-[var(--app-border)] bg-[var(--app-surface)]/70 px-2.5 py-2 text-[11px] font-medium text-[var(--app-text-muted)]">
                   Double-check dates before submitting the form.
                 </div>
-                <div className="rounded-lg border border-[#e9edf7] bg-white/70 px-2.5 py-2 text-[11px] font-medium text-[#57627a]">
+                <div className="rounded-lg border border-[var(--app-border)] bg-[var(--app-surface)]/70 px-2.5 py-2 text-[11px] font-medium text-[var(--app-text-muted)]">
                   Review each section status before creating account.
                 </div>
               </div>
@@ -622,14 +597,14 @@ export function RegisterPageFeature() {
 
             <div className="mt-auto flex justify-end gap-3 pt-2">
               <button
-                className="h-10 rounded-xl border border-[#d5dbea] bg-white px-7 text-sm font-semibold text-[#1f2937] transition hover:bg-[#f8fafc]"
+                className="h-10 rounded-xl border border-[var(--app-border)] bg-[var(--app-surface)] px-7 text-sm font-semibold text-[var(--app-text)] transition hover:bg-[var(--app-surface-2)]"
                 onClick={handleClearForm}
                 type="button"
               >
                 Cancel
               </button>
               <SubmitButton
-                className="h-10 rounded-xl bg-[#6246ea] px-8 text-sm text-white hover:bg-[#5037cf]"
+                className="h-10 rounded-xl bg-[var(--app-primary)] px-8 text-sm text-[var(--app-white)] hover:bg-[var(--app-electric-blue-3)]"
                 idleLabel="Create Account"
                 loading={registerLoading}
                 loadingLabel="Creating..."

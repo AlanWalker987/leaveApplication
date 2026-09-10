@@ -6,6 +6,7 @@ export const initialFormState: RegisterFormValues = {
   email: '',
   password: '',
   confirmPassword: '',
+  gender: 'Male',
   userRole: 'Employee',
   phoneNumber: '',
   designation: '',
@@ -26,9 +27,9 @@ export function normalizeTenDigitPhoneInput(value: string): string {
 }
 
 export function inputClass(hasError?: string): string {
-  return `h-[42px] rounded-xl bg-white text-[14px] placeholder:text-[#9aa6bc] ${
+  return `h-[42px] rounded-xl bg-[var(--app-surface)] text-[14px] placeholder:text-[var(--app-text-muted)] ${
     hasError
-      ? 'border-[#ef4444] focus:border-[#ef4444] focus:ring-[color:rgba(239,68,68,0.15)]'
-      : 'border-[#d8e2f0] focus:border-[#6246ea] focus:ring-[color:rgba(98,70,234,0.14)]'
+      ? 'border-[var(--app-error)] focus:border-[var(--app-error)] focus:ring-[color:rgba(239,68,68,0.15)]'
+      : 'border-[var(--app-border)] focus:border-[var(--app-primary)] focus:ring-[color:rgba(98,70,234,0.14)]'
   }`;
 }

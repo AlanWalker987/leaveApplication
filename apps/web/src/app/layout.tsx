@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import 'react-day-picker/style.css';
+import 'company-theme/styles.css';
 import './globals.css';
 import '../styles/main.scss';
 import { AppProviders } from './providers/app-providers';

@@ -4,8 +4,8 @@ export type HolidayType = {
 };
 
 export const HolidayTypes: HolidayType[] = [
-  { type: 'Public Holiday', color: '#FFB6B6' },
-  { type: 'Earn Leave', color: '#A0E7E5' },
+  { type: 'Public Holiday', color: 'var(--app-vibrant-orange-1)' },
+  { type: 'Earn Leave', color: 'var(--app-electric-blue-1)' },
 ];
 
 export function CalendarIndicators() {
@@ -14,7 +14,7 @@ export function CalendarIndicators() {
       {HolidayTypes.map((holiday) => (
         <div key={holiday.type} className="flex items-center flex-row gap-2">
           <div className="h-3 w-3 rounded-full" style={{ backgroundColor: holiday.color }} />
-          <span className="text-sm text-[#1b1b1b]">{holiday.type}</span>
+          <span className="text-sm text-[var(--app-text)]">{holiday.type}</span>
         </div>
       ))}
     </div>

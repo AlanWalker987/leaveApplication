@@ -1,7 +1,7 @@
-import { UseGuards } from '@nestjs/common';
+import { ForbiddenException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import * as GraphqlTypes from '../../graphql-types';
-import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import { CurrentUser } from '../../decorators/current-user.decorator';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { UserService } from './user.service';
 
@@ -20,6 +20,23 @@ type RegisterInputShape = {
   dateOfJoining: Date;
   emergencyContactName: string;
   emergencyContactNumber: string;
+};
+
+type UpdateUserInputShape = {
+  firstName?: string | null;
+  lastName?: string | null;
+  email?: string | null;
+  managerId?: string | null;
+  branchId?: string | null;
+  vendorId?: string | null;
+  userRole?: GraphqlTypes.Role | null;
+  phoneNumber?: string | null;
+  designation?: string | null;
+  dateOfBirth?: Date | null;
+  dateOfJoining?: Date | null;
+  emergencyContactName?: string | null;
+  emergencyContactNumber?: string | null;
+  gender?: GraphqlTypes.Gender | null;
 };
 
 type LoginInputShape = {
@@ -45,6 +62,33 @@ export class UserResolver {
   @Mutation('register')
   async register(@Args('input') input: RegisterInputShape): Promise<GraphqlTypes.User> {
     return await this.userService.register(input as GraphqlTypes.RegisterInput);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation('updateUserById')
+  async updateUserById(
+    @CurrentUser() user: AuthenticatedUser,
+    @Args('id') id: string,
+    @Args('input') input: UpdateUserInputShape,
+  ): Promise<GraphqlTypes.User> {
+    if (user.role !== 'Admin') {
+      throw new ForbiddenException('Only admin can update users');
+    }
+
+    return await this.userService.updateUserById(id, input);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation('deleteUserById')
+  async deleteUserById(
+    @CurrentUser() user: AuthenticatedUser,
+    @Args('id') id: string,
+  ): Promise<GraphqlTypes.User> {
+    if (user.role !== 'Admin') {
+      throw new ForbiddenException('Only admin can delete users');
+    }
+
+    return await this.userService.deleteUserById(id);
   }
 
   @Mutation('login')
@@ -76,12 +120,15 @@ export class UserResolver {
   async getAllUsers(
     @Args('offset') offset?: number,
     @Args('limit') limit?: number,
+    @Args('search') search?: string,
+    @Args('sortBy') sortBy?: string,
+    @Args('sortOrder') sortOrder?: string,
   ): Promise<GraphqlTypes.UserListResponse> {
     const pagination = {
       offset: Number(offset ?? 0),
       limit: Number(limit ?? 20),
     };
 
-    return await this.userService.getAllUsers(pagination);
+    return await this.userService.getAllUsers(pagination, search, sortBy, sortOrder);
   }
 }
